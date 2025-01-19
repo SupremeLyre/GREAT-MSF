@@ -1,8 +1,8 @@
 #Minimum requirement of CMake version : 3.0.0
-cmake_minimum_required(VERSION 3.0.0)
+# cmake_minimum_required(VERSION 3.0.0)
 
 #Project name and version number
-project(GREAT-MSF VERSION 0.1.0)
+# project(GREAT-MSF VERSION 0.1.0)
 
 #information message
 message(STATUS " ====================================================================================================================== ")
@@ -75,11 +75,12 @@ else()
 endif()
 
 # Set the ROOT and subdirectory, you should put the CMakeList.txt in these file directories
-set(ROOT ${PROJECT_SOURCE_DIR})
-set(EXECUTABLE_OUTPUT_PATH ${BUILD_DIR}/Bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}/Bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BUILD_DIR}/Lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BUILD_DIR}/Lib)
+set(ROOT ${PROJECT_SOURCE_DIR}/src)
+message(STATUS "root directory is : ${ROOT}")
+# set(EXECUTABLE_OUTPUT_PATH ${BUILD_DIR}/Bin)
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}/Bin)
+# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BUILD_DIR}/Lib)
+# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BUILD_DIR}/Lib)
 
 set(CMAKE_DEBUG_POSTFIX "d")
 set(CMAKE_RELEASE_POSTFIX "")
@@ -125,9 +126,9 @@ else()
         set(Third_Eigen_ROOT       ${ROOT}/third-party/Eigen)
     endif()
 
-    if (NOT DEFINED Third_GLFW_ROOT)
-        set(Third_GLFW_ROOT       ${ROOT}/third-party/GLFW)
-    endif()
+    # if (NOT DEFINED Third_GLFW_ROOT)
+    #     set(Third_GLFW_ROOT       ${ROOT}/third-party/GLFW)
+    # endif()
     # ==============================================================================
 endif()
 
@@ -135,8 +136,8 @@ endif()
 set(LibGnut          LibGnut)
 set(LibGREAT         LibGREAT)
 
-set(LibGnutSrc          ${PROJECT_SOURCE_DIR}/${LibGnut})
-set(LibGREATSrc         ${PROJECT_SOURCE_DIR}/${LibGREAT})
+set(LibGnutSrc          ${ROOT}/${LibGnut})
+set(LibGREATSrc         ${ROOT}/${LibGREAT})
 
 add_subdirectory(${LibGnutSrc}       ${BUILD_DIR}/${LibGnut})
 add_subdirectory(${LibGREATSrc}      ${BUILD_DIR}/${LibGREAT})

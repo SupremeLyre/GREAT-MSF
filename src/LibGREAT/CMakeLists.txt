@@ -24,18 +24,22 @@ else()
     # For linux
     # write write_your_path_here
     # ==============================================================================
+    find_package(OpenGL REQUIRED)
+    find_package(glfw3 3.3 REQUIRED)
     if (NOT DEFINED Third_Eigen_ROOT)
         set(Third_Eigen_ROOT       ${ROOT}/third-party/Eigen)
     endif()
-    if (NOT DEFINED Third_GLFW_ROOT)
-        set(Third_GLFW_ROOT       ${ROOT}/third-party/GLFW)
-    endif()
+    # if (NOT DEFINED Third_GLFW_ROOT)
+    #     set(Third_GLFW_ROOT       ${ROOT}/third-party/GLFW)
+    # endif()
     # ==============================================================================
 endif()
 
 # set include path
 include_directories(${Third_Eigen_ROOT})
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 include_directories(${Third_GLFW_ROOT}/include)
+endif()
 include_directories(${LibGnutSrc})
 include_directories(${LibGREATSrc})
 
@@ -99,9 +103,10 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     link_directories(${BUILD_DIR}/Lib/Release)
     link_directories(${BUILD_DIR}/Lib/RelWithDebInfo)
     link_directories(${BUILD_DIR}/Lib/MinSizeRel)
-	target_link_libraries(${PROJECT_NAME} ${Third_GLFW_ROOT}/lib/glfw3.lib opengl32.lib)
+    target_link_libraries(${PROJECT_NAME} ${Third_GLFW_ROOT}/lib/glfw3.lib opengl32.lib)
 else()
     link_directories(${BUILD_DIR}/Lib)
+    target_link_libraries(${PROJECT_NAME} OpenGL::GL glfw)
 endif()
 # ==========================================================================================================================================
 target_link_libraries(${PROJECT_NAME}    ${LibGnut})
