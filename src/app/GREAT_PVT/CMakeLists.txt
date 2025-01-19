@@ -27,14 +27,16 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
         ${BUILD_DIR}/Lib/MinSizeRel)
     link_directories(${link_path})                 
 else()
-    set(link_path
-        ${BUILD_DIR}/Lib)
-    link_directories(${link_path})                 
+    # set(link_path
+    #     ${BUILD_DIR}/Lib)
+    # link_directories(${link_path})                 
 endif()
 
 set(lib_list
     ${LibGnut}
     ${LibGREAT})
-target_link_libraries(${PROJECT_NAME} ${lib_list})
 
 add_dependencies(${PROJECT_NAME} ${lib_list})
+target_link_libraries(${PROJECT_NAME} ${lib_list})
+
+

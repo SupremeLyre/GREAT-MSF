@@ -1,0 +1,9 @@
+{
+    "cmake.debugConfig": {
+        "args": [
+            "-x",
+            "xml/GREAT_MSF_TCPPP_1029.xml",
+        ],
+        "cwd": "${workspaceFolder}/sample_data/MSF_20201029"
+    }
+}

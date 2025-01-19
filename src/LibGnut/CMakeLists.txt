@@ -92,7 +92,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     link_directories(${BUILD_DIR}/Lib/RelWithDebInfo)
     link_directories(${BUILD_DIR}/Lib/MinSizeRel)
 else()
-    link_directories(${BUILD_DIR}/Lib)
+    # link_directories(${BUILD_DIR}/Lib)
     target_link_libraries(${PROJECT_NAME} z)
 endif()
 # ==========================================================================================================================================

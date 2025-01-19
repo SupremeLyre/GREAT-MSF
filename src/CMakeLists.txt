@@ -1,10 +1,10 @@
-#Minimum requirement of CMake version : 3.0.0
+# Minimum requirement of CMake version : 3.0.0
 # cmake_minimum_required(VERSION 3.0.0)
 
-#Project name and version number
+# Project name and version number
 # project(GREAT-MSF VERSION 0.1.0)
 
-#information message
+# information message
 message(STATUS " ====================================================================================================================== ")
 
 message(STATUS "    .oooooo.    ooooooooo.   oooooooooooo       .o.       ooooooooooooo")
@@ -32,6 +32,7 @@ CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 # Compilation options settings
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
     add_compile_options(-O3)
+
     # add_compile_options(-w)
     add_compile_options(-m64)
     add_compile_options(-lz)
@@ -39,8 +40,9 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
     add_compile_options(-Wall)
     add_compile_options(-w)
     SET(BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}_Linux)
-    SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
-    SET(CMAKE_INSTALL_RPATH "\${ORIGIN}/../Lib") 
+
+# SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+# SET(CMAKE_INSTALL_RPATH "\${ORIGIN}/../Lib")
 elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
     SET(BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}_Darwin)
     add_compile_options(-pthread)
@@ -77,11 +79,11 @@ endif()
 # Set the ROOT and subdirectory, you should put the CMakeList.txt in these file directories
 set(ROOT ${PROJECT_SOURCE_DIR}/src)
 message(STATUS "root directory is : ${ROOT}")
+
 # set(EXECUTABLE_OUTPUT_PATH ${BUILD_DIR}/Bin)
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}/Bin)
 # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BUILD_DIR}/Lib)
 # set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BUILD_DIR}/Lib)
-
 set(CMAKE_DEBUG_POSTFIX "d")
 set(CMAKE_RELEASE_POSTFIX "")
 set(CMAKE_RELWITHDEBINFO_POSTFIX "rd")
@@ -96,10 +98,8 @@ message(STATUS "C++ compiler     is : ${CMAKE_CXX_COMPILER}")
 message(STATUS "Build directory  is : ${BUILD_DIR}")
 message(STATUS "The program main directory is : ${ROOT}")
 
-    
-
 # set lib name
-set(file_fold 
+set(file_fold
     spdlog gexport gio gutils gcoders gmodels gall gdata gset pugixml gproc gprod gambfix newmat gins gmsf)
 message(${file_fold})
 set(PrintFile FALSE)
@@ -108,49 +108,50 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # link third party
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    #For windows
+    # For windows
     # ==============================================================================
-    if (NOT DEFINED Third_Eigen_ROOT)
-        find_path(Third_Eigen_ROOT       HINTS "${Third_Eigen_ROOT}"        "$ENV{Third_Eigen_ROOT}            ")
+    if(NOT DEFINED Third_Eigen_ROOT)
+        find_path(Third_Eigen_ROOT HINTS "${Third_Eigen_ROOT}" "$ENV{Third_Eigen_ROOT}            ")
     endif()
 
-    if (NOT DEFINED Third_GLFW_ROOT)
-        find_path(Third_GLFW_ROOT        HINTS "${Third_GLFW_ROOT}"         "$ENV{Third_GLFW_ROOT}         ")
+    if(NOT DEFINED Third_GLFW_ROOT)
+        find_path(Third_GLFW_ROOT HINTS "${Third_GLFW_ROOT}" "$ENV{Third_GLFW_ROOT}         ")
     endif()
-    # ==============================================================================
+
+# ==============================================================================
 else()
     # For linux
     # write write_your_path_here
     # ==============================================================================
-    if (NOT DEFINED Third_Eigen_ROOT)
-        set(Third_Eigen_ROOT       ${ROOT}/third-party/Eigen)
+    if(NOT DEFINED Third_Eigen_ROOT)
+        set(Third_Eigen_ROOT ${ROOT}/third-party/Eigen)
     endif()
 
     # if (NOT DEFINED Third_GLFW_ROOT)
-    #     set(Third_GLFW_ROOT       ${ROOT}/third-party/GLFW)
+    # set(Third_GLFW_ROOT       ${ROOT}/third-party/GLFW)
     # endif()
     # ==============================================================================
 endif()
 
 # ========================================================================================================================================
-set(LibGnut          LibGnut)
-set(LibGREAT         LibGREAT)
+set(LibGnut LibGnut)
+set(LibGREAT LibGREAT)
 
-set(LibGnutSrc          ${ROOT}/${LibGnut})
-set(LibGREATSrc         ${ROOT}/${LibGREAT})
+set(LibGnutSrc ${ROOT}/${LibGnut})
+set(LibGREATSrc ${ROOT}/${LibGREAT})
 
-add_subdirectory(${LibGnutSrc}       ${BUILD_DIR}/${LibGnut})
-add_subdirectory(${LibGREATSrc}      ${BUILD_DIR}/${LibGREAT})
+add_subdirectory(${LibGnutSrc} ${BUILD_DIR}/${LibGnut})
+add_subdirectory(${LibGREATSrc} ${BUILD_DIR}/${LibGREAT})
 
 SET_PROPERTY(TARGET ${LibGnut}       PROPERTY FOLDER "LIB")
 SET_PROPERTY(TARGET ${LibGREAT}      PROPERTY FOLDER "LIB")
 
 # ========================================================================================================================================
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    #For windows
+    # For windows
     message(STATUS "                                                       ")
     message(STATUS "==================    Windows    ======================")
-    SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)    
+    SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 else()
     # For linux
     message(STATUS "                                                       ")

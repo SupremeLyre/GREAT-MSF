@@ -44,7 +44,7 @@ include_directories(${LibGnutSrc})
 include_directories(${LibGREATSrc})
 
 #message(STATUS "                                                                     ")
-message(STATUS " include path for ${LibGPP} is : ${Third_Eigen_ROOT}")
+message(STATUS " include path for ${LibGREAT} is : ${Third_Eigen_ROOT}")
 message(STATUS " include path for ${LibGREAT} is : ${LibGREATSrc}")
 #message(STATUS "                                                                     ")
 
@@ -105,7 +105,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     link_directories(${BUILD_DIR}/Lib/MinSizeRel)
     target_link_libraries(${PROJECT_NAME} ${Third_GLFW_ROOT}/lib/glfw3.lib opengl32.lib)
 else()
-    link_directories(${BUILD_DIR}/Lib)
+    # link_directories(${BUILD_DIR}/Lib)
     target_link_libraries(${PROJECT_NAME} OpenGL::GL glfw)
 endif()
 # ==========================================================================================================================================
