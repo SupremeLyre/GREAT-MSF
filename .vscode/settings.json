@@ -2,9 +2,10 @@
     "cmake.debugConfig": {
         "args": [
             "-x",
-            "xml/GREAT_MSF_TCPPP_1029.xml",
+            "xml/GREAT_MSF_TCPPP_0318.xml", 
+            // "xml/GREAT_MSF_TCPPP_1029.xml",
         ],
-        "cwd": "${workspaceFolder}/sample_data/MSF_20201029"
+        "cwd": "${workspaceFolder}/sample_data/MSF_20250318"
     },
     "python.autoComplete.extraPaths": [
         "/opt/ros/humble/lib/python3.10/site-packages",

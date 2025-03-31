@@ -91,14 +91,14 @@ int great::t_gintegration::processBatchFB(const t_gtime& beg, const t_gtime& end
     {
         if (_ins_crt > _ins_end || _gnss_crt > _gnss_end)
         {
-            cerr << "\n" << "Processing Finished!" << endl;
+            cerr << "\n" << "Processing [current epoch > end] and Finished!" << endl;
             if (_spdlog) SPDLOG_LOGGER_INFO(_spdlog, string("gintegration:  ") +  "Processing Finished!");
             time_loop = false; break;
         }
 
         if (!_imudata->load(_wm, _vm, _shm.t, _shm.ts, _shm.nSamples))
         {
-            cerr << "\n" << "Processing Finished!" << endl;
+            cerr << "\n" << "Processing [imu data load] Finished!" << endl;
             break;
         }
         _ins_crt = t_gtime(_gnss_crt.gwk(), _shm.t);

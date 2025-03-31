@@ -68,7 +68,7 @@ int great::t_imufile::decode_data(char *buff, int sz, int &cnt, vector<string> &
             if (line[i] == ',' || line[i] == '*' || line[i] == ';')
                 line[i] = ' ';
         }
-        double t, gx, gy, gz, ax, ay, az, mx, my, mz;
+        double t{}, gx{}, gy{}, gz{}, ax{}, ay{}, az{}, mx{}, my{}, mz{};
         Vector3d g_tmp, a_tmp, m_tmp;
         Vector3d wtmp, vtmp, mtmp;
         stringstream ss(line);
@@ -77,6 +77,7 @@ int great::t_imufile::decode_data(char *buff, int sz, int &cnt, vector<string> &
             ss >> t >> gx >> gy >> gz >> ax >> ay >> az;
             g_tmp = Vector3d(gx, gy, gz);
             a_tmp = Vector3d(ax, ay, az);
+            // cout << "fucking data: " << t << " " << gx << " " << gy << " " << gz << " " << ax << " " << ay << " " << az << "\n";
         }
         else if (_order[0] == 'a' && _order[1] == 'g') // a->g
         {
