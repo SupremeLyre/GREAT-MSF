@@ -3,3 +3,5 @@
 bin/
 lib/
 MSF_*/
+.cache/
+log/

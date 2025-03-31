@@ -5,5 +5,13 @@
             "xml/GREAT_MSF_TCPPP_1029.xml",
         ],
         "cwd": "${workspaceFolder}/sample_data/MSF_20201029"
-    }
+    },
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
 }
