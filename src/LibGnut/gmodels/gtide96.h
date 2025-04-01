@@ -29,43 +29,43 @@
 #include <boost/thread/mutex.hpp>
 #endif
 
+#include "gmodels/gephplan.h"
+#include "gmodels/gtide.h"
 #include "gutils/gconst.h"
 #include "gutils/gtime.h"
 #include "gutils/gtriple.h"
-#include "gmodels/gephplan.h"
-#include "gmodels/gtide.h"
 
 using namespace std;
 
 namespace gnut
 {
 
-    /** @brief class for t_gtide96 derive from t_gtide. */
-    class LibGnut_LIBRARY_EXPORT t_gtide96 : public t_gtide
-    {
+/** @brief class for t_gtide96 derive from t_gtide. */
+class LibGnut_LIBRARY_EXPORT t_gtide96 : public t_gtide
+{
 
-    public:
-        /** @brief constructor 1. */
-        t_gtide96(t_spdlog spdlog);
+  public:
+    /** @brief constructor 1. */
+    t_gtide96(t_spdlog spdlog);
 
-        /** @brief default destructor. */
-        virtual ~t_gtide96();
+    /** @brief default destructor. */
+    virtual ~t_gtide96();
 
-        /** @brief solid earth tides. */
-        virtual t_gtriple tide_searth(const t_gtime &epo, t_gtriple &xyz);
+    /** @brief solid earth tides. */
+    virtual t_gtriple tide_searth(const t_gtime &epo, t_gtriple &xyz);
 
-        /** @brief pole tides. */
-        virtual t_gtriple tide_pole();
+    /** @brief pole tides. */
+    virtual t_gtriple tide_pole();
 
-        /** @brief ocean tide loading. */
-        virtual t_gtriple load_ocean(const t_gtime &epoch, const string &site, const t_gtriple &xRec);
+    /** @brief ocean tide loading. */
+    virtual t_gtriple load_ocean(const t_gtime &epoch, const string &site, const t_gtriple &xRec);
 
-        /** @brief atmospheric tide loading. */
-        virtual t_gtriple load_atmosph();
+    /** @brief atmospheric tide loading. */
+    virtual t_gtriple load_atmosph();
 
-    protected:
-    };
+  protected:
+};
 
-} // namespace
+} // namespace gnut
 
 #endif

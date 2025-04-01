@@ -29,70 +29,70 @@
 #include <string>
 #include <vector>
 
-#include "gall/gallobs.h"
 #include "gall/gallobj.h"
-#include "gutils/gtime.h"
-#include "gutils/gtriple.h"
-#include "gutils/gsys.h"
-#include "gutils/gobs.h"
-#include "gutils/gtypeconv.h"
+#include "gall/gallobs.h"
 #include "gcoders/gcoder.h"
 #include "gcoders/rinexo2.h"
 #include "gcoders/rinexo3.h"
 #include "gdata/grnxhdr.h"
+#include "gutils/gobs.h"
+#include "gutils/gsys.h"
+#include "gutils/gtime.h"
+#include "gutils/gtriple.h"
+#include "gutils/gtypeconv.h"
 
 using namespace std;
 
 namespace gnut
 {
+/**
+ *@brief Class for t_rinexo derive from t_rinexo3
+ */
+class LibGnut_LIBRARY_EXPORT t_rinexo : public t_rinexo3
+{
+
+  public:
+    /** @brief constructor set + version + sz. */
+    explicit t_rinexo(t_gsetbase *s, string version = "", int sz = DEFAULT_BUFFER_SIZE);
+
+    /** @brief constructor beg + end + set + version + sz. */
+    t_rinexo(t_gtime beg, t_gtime end, t_gsetbase *s, string version = "", int sz = DEFAULT_BUFFER_SIZE);
+
+    /** @brief default destructor. */
+    virtual ~t_rinexo(){};
+
+    /** @brief decode head. */
+    virtual int decode_head(char *buff, int sz, vector<string> &errmsg);
+
     /**
-    *@brief Class for t_rinexo derive from t_rinexo3
-    */
-    class LibGnut_LIBRARY_EXPORT t_rinexo : public t_rinexo3
-    {
+     * @brief
+     *
+     * @param buff
+     * @param sz
+     * @param cnt
+     * @param errmsg
+     * @return int
+     */
+    virtual int decode_data(char *buff, int sz, int &cnt, vector<string> &errmsg);
 
-    public:
-        /** @brief constructor set + version + sz. */
-        explicit t_rinexo(t_gsetbase *s, string version = "", int sz = DEFAULT_BUFFER_SIZE);
+  protected:
+    /**
+     * @brief decode head
+     *
+     * @return int
+     */
+    virtual int _decode_head();
 
-        /** @brief constructor beg + end + set + version + sz. */
-        t_rinexo(t_gtime beg, t_gtime end, t_gsetbase *s, string version = "", int sz = DEFAULT_BUFFER_SIZE);
+    /**
+     * @brief decode data
+     *
+     * @return int
+     */
+    virtual int _decode_data();
 
-        /** @brief default destructor. */
-        virtual ~t_rinexo(){};
+  private:
+};
 
-        /** @brief decode head. */
-        virtual int decode_head(char *buff, int sz, vector<string> &errmsg);
-
-        /**
-         * @brief 
-         * 
-         * @param buff 
-         * @param sz 
-         * @param cnt 
-         * @param errmsg 
-         * @return int 
-         */
-        virtual int decode_data(char *buff, int sz, int &cnt, vector<string> &errmsg);
-
-    protected:
-        /**
-         * @brief decode head
-         * 
-         * @return int 
-         */
-        virtual int _decode_head();
-
-        /**
-         * @brief decode data
-         * 
-         * @return int 
-         */
-        virtual int _decode_data();
-
-    private:
-    };
-
-} // namespace
+} // namespace gnut
 
 #endif

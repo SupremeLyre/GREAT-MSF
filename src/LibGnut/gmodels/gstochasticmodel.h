@@ -28,102 +28,102 @@ using namespace std;
 namespace gnut
 {
 
-    /** @brief class for t_stochastic. */
-    class LibGnut_LIBRARY_EXPORT t_stochastic
+/** @brief class for t_stochastic. */
+class LibGnut_LIBRARY_EXPORT t_stochastic
+{
+  public:
+    /** @brief default constructor. */
+    t_stochastic();
+
+    /** @brief default destructor. */
+    virtual ~t_stochastic(){};
+
+    /** @brief get Q. */
+    virtual double getQ()
     {
-    public:
-        /** @brief default constructor. */
-        t_stochastic();
+        return 0.0;
+    }
 
-        /** @brief default destructor. */
-        virtual ~t_stochastic(){};
+  protected:
+  private:
+};
 
-        /** @brief get Q. */
-        virtual double getQ()
-        {
-            return 0.0;
-        }
+/** @brief class for t_randomwalk derive from t_stochastic. */
+class LibGnut_LIBRARY_EXPORT t_randomwalk : public t_stochastic
+{
+  public:
+    /** @brief default constructor. */
+    t_randomwalk();
 
-    protected:
-    private:
-    };
+    /** @brief default destructor. */
+    virtual ~t_randomwalk(){};
 
-    /** @brief class for t_randomwalk derive from t_stochastic. */
-    class LibGnut_LIBRARY_EXPORT t_randomwalk : public t_stochastic
-    {
-    public:
-        /** @brief default constructor. */
-        t_randomwalk();
+    /** @brief get Q. */
+    virtual double getQ();
 
-        /** @brief default destructor. */
-        virtual ~t_randomwalk(){};
+    /** @brief set Tprev. */
+    void setTprev(const t_gtime &);
 
-        /** @brief get Q. */
-        virtual double getQ();
+    /** @brief set Tcurr. */
+    void setTcurr(const t_gtime &);
 
-        /** @brief set Tprev. */
-        void setTprev(const t_gtime &);
+    /** @brief update time. */
+    void updateTime(const t_gtime &);
 
-        /** @brief set Tcurr. */
-        void setTcurr(const t_gtime &);
+    /** @brief set Q. */
+    void setq(double q);
 
-        /** @brief update time. */
-        void updateTime(const t_gtime &);
+    /** @brief get dt. */
+    double get_dt();
 
-        /** @brief set Q. */
-        void setq(double q);
+  protected:
+  private:
+    t_gtime _Tprev; ///< time of prev
+    t_gtime _Tcurr; ///< time of current
+    double _dSig;   ///< dsigma
+};
 
-        /** @brief get dt. */
-        double get_dt();
+/** @brief class for t_whitenoise derive from t_stochastic. */
+class LibGnut_LIBRARY_EXPORT t_whitenoise : public t_stochastic
+{
+  public:
+    /** @brief constructor 1. */
+    t_whitenoise(double);
 
-    protected:
-    private:
-        t_gtime _Tprev; ///< time of prev
-        t_gtime _Tcurr; ///< time of current
-        double _dSig;   ///< dsigma
-    };
+    /** @brief default destructor. */
+    virtual ~t_whitenoise(){};
 
-    /** @brief class for t_whitenoise derive from t_stochastic. */
-    class LibGnut_LIBRARY_EXPORT t_whitenoise : public t_stochastic
-    {
-    public:
-        /** @brief constructor 1. */
-        t_whitenoise(double);
+    /** @brief get Q. */
+    virtual double getQ();
 
-        /** @brief default destructor. */
-        virtual ~t_whitenoise(){};
+    /** @brief set Var */
+    void setVar(double);
 
-        /** @brief get Q. */
-        virtual double getQ();
+  private:
+    double _var; ///< var
+};
 
-        /** @brief set Var */
-        void setVar(double);
+/** @brief class for t_statemode. */
+class LibGnut_LIBRARY_EXPORT t_statemode
+{
+  public:
+    /** @brief default constructor. */
+    t_statemode();
 
-    private:
-        double _var; ///< var
-    };
+    /** @brief constructor 1. */
+    t_statemode(int order, double dt, double noise);
 
-    /** @brief class for t_statemode. */
-    class LibGnut_LIBRARY_EXPORT t_statemode
-    {
-    public:
-        /** @brief default constructor. */
-        t_statemode();
+    /** @brief default destructor. */
+    virtual ~t_statemode();
 
-        /** @brief constructor 1. */
-        t_statemode(int order, double dt, double noise);
+    int order;         ///< order
+    Matrix M;          ///< M
+    SymmetricMatrix P; ///< P
 
-        /** @brief default destructor. */
-        virtual ~t_statemode();
+  private:
+    static const double _coeff[6]; /// coff
+};
 
-        int order;         ///< order
-        Matrix M;          ///< M
-        SymmetricMatrix P; ///< P
-
-    private:
-        static const double _coeff[6]; ///coff
-    };
-
-} // namespace
+} // namespace gnut
 
 #endif // STOCHASTIC_H

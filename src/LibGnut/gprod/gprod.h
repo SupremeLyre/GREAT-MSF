@@ -20,8 +20,8 @@
 #ifndef GPROD_H
 #define GPROD_H
 
-#include <set>
 #include <iostream>
+#include <set>
 
 #include "gdata/gdata.h"
 #include "gdata/gobj.h"
@@ -32,55 +32,64 @@ using namespace std;
 namespace gnut
 {
 
-    static shared_ptr<t_gobj> nullobj;
+static shared_ptr<t_gobj> nullobj;
 
-    /** @brief class for t_gprod derive from t_gdata. */
-    class LibGnut_LIBRARY_EXPORT t_gprod : public t_gdata
+/** @brief class for t_gprod derive from t_gdata. */
+class LibGnut_LIBRARY_EXPORT t_gprod : public t_gdata
+{
+
+  public:
+    /** @brief constructor 1. */
+    explicit t_gprod(const t_gtime &t, shared_ptr<t_gobj> pt = nullobj);
+
+    t_gprod(t_spdlog spdlog, const t_gtime &t, shared_ptr<t_gobj> pt = nullobj);
+    /** @brief default destructor. */
+    virtual ~t_gprod();
+
+    typedef map<string, pair<double, double>> t_map_prod; ///< map of prod
+
+    /** @brief get/set epo. */
+    t_gtime epoch() const
     {
+        return _epo;
+    }
 
-    public:
-        /** @brief constructor 1. */
-        explicit t_gprod(const t_gtime &t, shared_ptr<t_gobj> pt = nullobj);
+    /** @brief get/set obj. */
+    string obj_id() const
+    {
+        if (_obj)
+            return _obj->id();
+        else
+            return "";
+    }
 
-        t_gprod(t_spdlog spdlog, const t_gtime &t, shared_ptr<t_gobj> pt = nullobj);
-        /** @brief default destructor. */
-        virtual ~t_gprod();
+    /** @brief get/set val. */
+    int set_val(const string &str, const double &val, const double &rms = 0.0);
 
-        typedef map<string, pair<double, double>> t_map_prod; ///< map of prod
+    /** @brief get/set nSat. */
+    void nSat(const int &n)
+    {
+        _nSat = n;
+    }
 
-        /** @brief get/set epo. */
-        t_gtime epoch() const { return _epo; }
+    /** @brief get/set nSat_excl. */
+    void nSat_excl(const int &n)
+    {
+        _nSat_excl = n;
+    }
 
-        /** @brief get/set obj. */
-        string obj_id() const
-        {
-            if (_obj)
-                return _obj->id();
-            else
-                return "";
-        }
+  protected:
+    t_gtime _epo;                      ///< epo
+    shared_ptr<t_gobj> _obj;           ///< object
+    t_map_prod _prod;                  ///< prod
+    t_map_prod::const_iterator itPROD; ///< it_prod
 
-        /** @brief get/set val. */
-        int set_val(const string &str, const double &val, const double &rms = 0.0);
+    int _nSat;      ///< number of sat
+    int _nSat_excl; ///< number of sat excl
 
-        /** @brief get/set nSat. */
-        void nSat(const int &n) { _nSat = n; }
+  private:
+};
 
-        /** @brief get/set nSat_excl. */
-        void nSat_excl(const int &n) { _nSat_excl = n; }
-
-    protected:
-        t_gtime _epo;                      ///< epo
-        shared_ptr<t_gobj> _obj;           ///< object
-        t_map_prod _prod;                  ///< prod
-        t_map_prod::const_iterator itPROD; ///< it_prod
-
-        int _nSat;      ///< number of sat
-        int _nSat_excl; ///< number of sat excl
-
-    private:
-    };
-
-} // namespace
+} // namespace gnut
 
 #endif

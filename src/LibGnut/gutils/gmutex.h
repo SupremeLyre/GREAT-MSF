@@ -31,43 +31,43 @@
 #include <omp.h>
 #endif
 
-#include <thread>
 #include <mutex>
+#include <thread>
 
 namespace gnut
 {
-    /** @brief class for t_gmutex. */
-    class LibGnut_LIBRARY_EXPORT t_gmutex
-    {
-    public:
-        /** @brief default constructor. */
-        t_gmutex();
+/** @brief class for t_gmutex. */
+class LibGnut_LIBRARY_EXPORT t_gmutex
+{
+  public:
+    /** @brief default constructor. */
+    t_gmutex();
 
-        /** @brief copy constructor. */
-        t_gmutex(const t_gmutex &Other);
+    /** @brief copy constructor. */
+    t_gmutex(const t_gmutex &Other);
 
-        /** @brief default destructor. */
-        ~t_gmutex();
+    /** @brief default destructor. */
+    ~t_gmutex();
 
-        /** @brief override operator =. */
-        t_gmutex operator=(const t_gmutex &Other);
+    /** @brief override operator =. */
+    t_gmutex operator=(const t_gmutex &Other);
 
-        /** @brief lock. */
-        void lock();
+    /** @brief lock. */
+    void lock();
 
-        /** @brief unlock. */
-        void unlock();
+    /** @brief unlock. */
+    void unlock();
 
-        bool isLock = false;
+    bool isLock = false;
 
-    protected:
+  protected:
 #ifdef USE_OPENMP
-        omp_lock_t _mutex;
+    omp_lock_t _mutex;
 #else
-        mutex _mutex;
+    mutex _mutex;
 
-#endif 
-    };
-} // namespace
+#endif
+};
+} // namespace gnut
 
 #endif // MUTEX_H

@@ -12,21 +12,20 @@
 #include "gpublish.h"
 #include <iostream>
 
-
 void MyPerspective(GLdouble fov, GLdouble aspectRatio, GLdouble zNear, GLdouble zFar);
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
-//map<GLFWwindow*, Viewer*> Viewer::mapptr;
-//Viewer* getViewerPtr(GLFWwindow* window);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
+static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos);
+// map<GLFWwindow*, Viewer*> Viewer::mapptr;
+// Viewer* getViewerPtr(GLFWwindow* window);
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 // Different Objects
 void MyCylinder(GLdouble r, GLdouble l, int edgenum);
 void MyFrame();
 void MyAerial(GLfloat size);
 
-vector<great::gviewer*> great::gviewer::vptr;
+vector<great::gviewer *> great::gviewer::vptr;
 
 using namespace std;
 
@@ -67,7 +66,6 @@ double m_curr_X0 = 0;
 double m_curr_Y0 = 0;
 double m_curr_Z0 = 0;
 
-
 bool is_pressL = false;
 bool is_pressR = false;
 bool mb_stop = false;
@@ -84,22 +82,20 @@ great::gviewer::gviewer()
     near_points.resize(1);
 }
 
-
 great::gviewer::~gviewer()
 {
     gviewer::vptr.erase(std::find(gviewer::vptr.begin(), gviewer::vptr.end() - 1, this));
-
 }
 
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     if (!mb_overlook)
         MyPerspective(45, (float)width / height, 0.01, 100.0);
-    else glOrtho(-3.0*width / height, 3.0*width / height, -3, 3, -10, 1000);
+    else
+        glOrtho(-3.0 * width / height, 3.0 * width / height, -3, 3, -10, 1000);
 }
 
 void great::gviewer::Run()
@@ -130,8 +126,8 @@ void great::gviewer::Run()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     //   glEnable(GL_LIGHT0);
-   //glEnable(GL_LIGHTING);
-   /* Loop until the user closes the window */
+    // glEnable(GL_LIGHTING);
+    /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window) && !mb_stop)
     {
 #ifdef _WIN32
@@ -142,7 +138,7 @@ void great::gviewer::Run()
         unique_lock<mutex> lock(m_mutex);
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //paint
+        // paint
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
@@ -150,7 +146,7 @@ void great::gviewer::Run()
 
         if (!mb_overlook)
         {
-            //gluLookAt(m_dist,m_dist,m_dist,0,0,0,0,0,1);
+            // gluLookAt(m_dist,m_dist,m_dist,0,0,0,0,0,1);
             glRotatef(-50 + m_rot_X, 1, 0, 0);
             glRotatef(-135, 0, 0, 1);
             glRotatef(0, 1, 0, 0);
@@ -159,7 +155,7 @@ void great::gviewer::Run()
         }
         else
         {
-            //gluLookAt(0,0,m_dist,0,0,0,0,1,0);
+            // gluLookAt(0,0,m_dist,0,0,0,0,1,0);
         }
 
         m_interval = 0.1;
@@ -182,8 +178,9 @@ void great::gviewer::Run()
         {
             for (double i = 0; i < 100 * (1 / m_scale); i += m_interval)
             {
-                double z = 1.5*sqrt(sqrt(0.00002*i / m_interval));
-                if (i == 0) z = 1.5*sqrt(sqrt(0.00002 * 1));
+                double z = 1.5 * sqrt(sqrt(0.00002 * i / m_interval));
+                if (i == 0)
+                    z = 1.5 * sqrt(sqrt(0.00002 * 1));
                 glColor3f(0.70f + z, 0.70f + z, 0.70f + z);
                 glLineWidth(1.0);
                 glBegin(GL_LINES);
@@ -208,27 +205,26 @@ void great::gviewer::Run()
         {
             glPushMatrix();
             glColor3f(0.0f, 0.0f, 1.0f);
-            MyCylinder(0.025f * 1 / m_scale, 1.5*m_interval, 8);
+            MyCylinder(0.025f * 1 / m_scale, 1.5 * m_interval, 8);
             glPopMatrix();
             glPushMatrix();
             glRotatef(-90, 1, 0, 0);
             glColor3f(0.0f, 1.0f, 0.0f);
-            MyCylinder(0.025f * 1 / m_scale, 1.5*m_interval, 8);
+            MyCylinder(0.025f * 1 / m_scale, 1.5 * m_interval, 8);
             glPopMatrix();
             glPushMatrix();
             glRotatef(90, 0, 1, 0);
             glColor3f(1.0f, 0.0f, 0.0f);
-            MyCylinder(0.025f * 1 / m_scale, 1.5*m_interval, 8);
+            MyCylinder(0.025f * 1 / m_scale, 1.5 * m_interval, 8);
             glPopMatrix();
         }
 
-
         if (mb_trajetory)
         {
-            //float c_s[3] = { 250 / 255.0,167 / 255.0,85 / 255.0 };
-            //float c_e[3] = { 80 / 255.0,183 / 255.0,193 / 255.0 };
-            float c_s[3] = { 15 / 255.0,  89 / 255.0,  164 / 255.0 };
-            float c_e[3] = { 41 / 255.0,  131 / 255.0, 187 / 255.0 };
+            // float c_s[3] = { 250 / 255.0,167 / 255.0,85 / 255.0 };
+            // float c_e[3] = { 80 / 255.0,183 / 255.0,193 / 255.0 };
+            float c_s[3] = {15 / 255.0, 89 / 255.0, 164 / 255.0};
+            float c_e[3] = {41 / 255.0, 131 / 255.0, 187 / 255.0};
             glColor4f(c_s[0], c_s[1], c_s[2], 0.5);
             glLineWidth(6.0f);
             for (const auto &t : mv_trajectory)
@@ -240,10 +236,8 @@ void great::gviewer::Run()
                     int n = 20 - (t.size() - 1 - i);
                     if (i > t.size() - 20 && i <= t.size() - 5)
                     {
-                        glColor4f(
-                            c_s[0] + (c_e[0] - c_s[0]) / 15.0 * n,
-                            c_s[1] + (c_e[1] - c_s[1]) / 15.0 * n,
-                            c_s[2] + (c_e[2] - c_s[2]) / 15.0 * n, 0.5);
+                        glColor4f(c_s[0] + (c_e[0] - c_s[0]) / 15.0 * n, c_s[1] + (c_e[1] - c_s[1]) / 15.0 * n,
+                                  c_s[2] + (c_e[2] - c_s[2]) / 15.0 * n, 0.5);
                     }
                     glVertex3d(p(0), p(1), p(2));
                 }
@@ -255,7 +249,6 @@ void great::gviewer::Run()
                     m_curr_Z0 = -mv_trajectory.back().back()[2];
                 }
             }
-
         }
         if (mb_KFs)
         {
@@ -278,8 +271,8 @@ void great::gviewer::Run()
         }
         if (mb_MPs)
         {
-            double c_l[3] = { 65 / 255.0 ,179 / 255.0,73 / 255.0 };
-            double c_h[3] = { 24 / 255.0 ,204 / 255.0,64 / 255.0 };
+            double c_l[3] = {65 / 255.0, 179 / 255.0, 73 / 255.0};
+            double c_h[3] = {24 / 255.0, 204 / 255.0, 64 / 255.0};
             double low = -5, high = 5;
             glPointSize(2.5f);
             for (const auto &pc : mv_pointCloud)
@@ -287,16 +280,14 @@ void great::gviewer::Run()
                 for (const auto &p : pc)
                 {
                     double h = (p(2) - (-5)) / 10;
-                    glColor3f(c_l[0] + (c_h[0] - c_l[0])*h,
-                        c_l[1] + (c_h[1] - c_l[1])*h,
-                        c_l[2] + (c_h[2] - c_l[2])*h);
+                    glColor3f(c_l[0] + (c_h[0] - c_l[0]) * h, c_l[1] + (c_h[1] - c_l[1]) * h,
+                              c_l[2] + (c_h[2] - c_l[2]) * h);
                     /*glColor3f(0.0, 1.0, 0.0);*/
                     glBegin(GL_POINTS);
                     glVertex3f(p(0), p(1), p(2));
                     glEnd();
                 }
             }
-
         }
 
         /* Swap front and back buffers */
@@ -307,8 +298,8 @@ void great::gviewer::Run()
     }
 
     glfwTerminate();
-    //cout<<window->
-    //delete window;
+    // cout<<window->
+    // delete window;
 }
 
 void great::gviewer::ClearView()
@@ -338,7 +329,7 @@ void great::gviewer::SetFrames(const vector<Frames> &vf)
     mv_frames = vf;
 }
 
-void great::gviewer::AddNewFrame(const pair<Eigen::Matrix3d, Eigen::Vector3d>& f)
+void great::gviewer::AddNewFrame(const pair<Eigen::Matrix3d, Eigen::Vector3d> &f)
 {
     unique_lock<mutex> lock(m_mutex);
     mv_frames.back().push_back(f);
@@ -350,7 +341,8 @@ void great::gviewer::SetPointCloud(const vector<VPointCloud> &vpc)
     mv_pointCloud = vpc;
 }
 
-void great::gviewer::SetPlaneCloud(const vector<Eigen::Vector3d> &_pcs, const vector<vector<Eigen::Vector3d>> & _near_points)
+void great::gviewer::SetPlaneCloud(const vector<Eigen::Vector3d> &_pcs,
+                                   const vector<vector<Eigen::Vector3d>> &_near_points)
 {
     unique_lock<mutex> lock(m_mutex);
 
@@ -360,7 +352,7 @@ void great::gviewer::SetPlaneCloud(const vector<Eigen::Vector3d> &_pcs, const ve
     near_points = _near_points;
 }
 
-void great::gviewer::AddNewPoint(const Eigen::Vector3d & p)
+void great::gviewer::AddNewPoint(const Eigen::Vector3d &p)
 {
     unique_lock<mutex> lock(m_mutex);
     mv_pointCloud.back().push_back(p);
@@ -369,26 +361,26 @@ void great::gviewer::AddNewPoint(const Eigen::Vector3d & p)
 void great::gviewer::AddNewPoint(const vector<Eigen::Vector3d> &pts)
 {
     unique_lock<mutex> lock(m_mutex);
-    for (const auto & p : pts)
+    for (const auto &p : pts)
     {
         mv_pointCloud.back().push_back(p);
     }
 }
 
-void great::gviewer::SetTrajectory(const Trajectory & t)
+void great::gviewer::SetTrajectory(const Trajectory &t)
 {
     unique_lock<mutex> lock(m_mutex);
     mv_trajectory.clear();
     mv_trajectory.push_back(t);
 }
 
-void great::gviewer::SetTrajectory(const vector<Trajectory>& vt)
+void great::gviewer::SetTrajectory(const vector<Trajectory> &vt)
 {
     unique_lock<mutex> lock(m_mutex);
     mv_trajectory = vt;
 }
 
-void great::gviewer::AddNewPos(const Eigen::Vector3d & p)
+void great::gviewer::AddNewPos(const Eigen::Vector3d &p)
 {
     unique_lock<mutex> lock(m_mutex);
     mv_trajectory.back().push_back(p);
@@ -396,18 +388,20 @@ void great::gviewer::AddNewPos(const Eigen::Vector3d & p)
 
 void great::gviewer::Show()
 {
-    if(t) return;
+    if (t)
+        return;
     mb_stop = false;
     t = new thread(&gviewer::Run, this);
-    //t->detach();
+    // t->detach();
 }
 
 void great::gviewer::Hide()
 {
-    if (!t) return;
+    if (!t)
+        return;
 
     mb_stop = true;
-    //Sleep(2000);
+    // Sleep(2000);
     t->join();
     delete t;
     window = nullptr;
@@ -442,14 +436,11 @@ void MyCylinder(GLdouble r, GLdouble l, int edgenum)
 void MyPerspective(GLdouble fov, GLdouble aspectRatio, GLdouble zNear, GLdouble zFar)
 {
     GLdouble rFov = fov * 3.14159265 / 180.0;
-    glFrustum(-zNear * tan(rFov / 2.0) * aspectRatio,
-        zNear * tan(rFov / 2.0) * aspectRatio,
-        -zNear * tan(rFov / 2.0),
-        zNear * tan(rFov / 2.0),
-        zNear, zFar);
+    glFrustum(-zNear * tan(rFov / 2.0) * aspectRatio, zNear * tan(rFov / 2.0) * aspectRatio, -zNear * tan(rFov / 2.0),
+              zNear * tan(rFov / 2.0), zNear, zFar);
 }
 
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 {
 
     double xpos, ypos;
@@ -484,26 +475,28 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     }
 }
 
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
 {
     if (is_pressL)
     {
-        m_rot_Z = m_rot_Z0 + (xpos - m_mouseL_x)*0.2;
-        m_rot_X = m_rot_X0 + (ypos - m_mouseL_y)*0.2;
+        m_rot_Z = m_rot_Z0 + (xpos - m_mouseL_x) * 0.2;
+        m_rot_X = m_rot_X0 + (ypos - m_mouseL_y) * 0.2;
     }
     if (is_pressR)
     {
-        m_trans_Y = m_trans_Y0 - (ypos - m_mouseR_y)*0.015;
-        m_trans_X = m_trans_X0 + (xpos - m_mouseR_x)*0.015;
+        m_trans_Y = m_trans_Y0 - (ypos - m_mouseR_y) * 0.015;
+        m_trans_X = m_trans_X0 + (xpos - m_mouseR_x) * 0.015;
     }
 }
 
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 {
-    if (yoffset > 0) m_scale *= 1.1;
-    if (yoffset < 0) m_scale /= 1.1;
+    if (yoffset > 0)
+        m_scale *= 1.1;
+    if (yoffset < 0)
+        m_scale /= 1.1;
 }
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_O && action == GLFW_PRESS)
         mb_overlook = (bool)(1 - (int)mb_overlook);
@@ -522,7 +515,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         m_curr_X = m_curr_X0;
         m_curr_Y = m_curr_Y0;
         m_curr_Z = m_curr_Z0;
-
     }
 }
 
@@ -535,7 +527,7 @@ void MyAerial(GLfloat size)
     glMultMatrixd(T.data());
 
     float h = size / 2;
-    float l = sqrt(2)*size;
+    float l = sqrt(2) * size;
     float r = size * 0.7;
     glColor3f(0.2, 0.2, 0.8);
     glLineWidth(4.0f);
@@ -557,7 +549,7 @@ void MyAerial(GLfloat size)
         glBegin(GL_LINE_STRIP);
         for (int j = 0; j <= n; j++)
         {
-            glVertex3d(cos(dd1*(i + 0.5))*l + cos(dd2*j)*r, sin(dd1*(i + 0.5))*l + sin(dd2*j)*r, h);
+            glVertex3d(cos(dd1 * (i + 0.5)) * l + cos(dd2 * j) * r, sin(dd1 * (i + 0.5)) * l + sin(dd2 * j) * r, h);
         }
         glEnd();
     }

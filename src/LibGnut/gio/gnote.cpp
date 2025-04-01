@@ -13,102 +13,98 @@ using namespace std;
 namespace gnut
 {
 
-    t_gnote::t_gnote(t_note n, string f, string s)
-    {
+t_gnote::t_gnote(t_note n, string f, string s)
+{
 
-        _stat = n;
-        _func = f;
-        _text = s;
+    _stat = n;
+    _func = f;
+    _text = s;
+}
+
+t_gnote::~t_gnote()
+{
+}
+
+ostream &operator<<(ostream &os, const t_gnote &n)
+{
+    os << n.str();
+    return os;
+}
+
+bool t_gnote::operator==(const t_gnote &n) const
+{
+    return (n.status() == _stat && n.func() == _func && n.text() == _text);
+}
+
+bool t_gnote::operator<(const t_gnote &n) const
+{
+    return (n.status() < _stat && n.func() < _func && n.text() < _text);
+}
+
+string t_gnote::_str() const
+{
+    string note;
+    switch (_stat)
+    {
+    case GMESSAGE:
+        note = "Message - ";
+        break;
+    case GWARNING:
+        note = "Warning - ";
+        break;
+    case GERROR:
+        note = "Error - ";
+        break;
     }
 
-    t_gnote::~t_gnote()
-    {
-    }
+    return note;
+}
 
-    ostream &operator<<(ostream &os, const t_gnote &n)
-    {
-        os << n.str();
-        return os;
-    }
+t_gallnote::t_gallnote()
+{
+}
 
-    bool t_gnote::operator==(const t_gnote &n) const
-    {
-        return (n.status() == _stat &&
-                n.func() == _func &&
-                n.text() == _text);
-    }
+t_gallnote::~t_gallnote()
+{
 
-    bool t_gnote::operator<(const t_gnote &n) const
-    {
-        return (n.status() < _stat &&
-                n.func() < _func &&
-                n.text() < _text);
-    }
+    this->clear();
+}
 
-    string t_gnote::_str() const
+void t_gallnote::clear()
+{
+
+    _gmutex.lock();
+    _gnotes.clear();
+    _gmutex.unlock();
+}
+
+void t_gallnote::mesg(t_note note, string func, string text)
+{
+
+    _gmutex.lock();
+
+    t_gnote gnote(note, func, text);
+
+    // eliminate repeating messages
+    bool exist = false;
+    for (auto it = _gnotes.begin(); it != _gnotes.end(); ++it)
     {
-        string note;
-        switch (_stat)
+        if (*it == gnote)
         {
-        case GMESSAGE:
-            note = "Message - ";
-            break;
-        case GWARNING:
-            note = "Warning - ";
-            break;
-        case GERROR:
-            note = "Error - ";
-            break;
+            exist = true;
         }
-
-        return note;
     }
+    if (!exist)
+        _gnotes.push_back(gnote);
 
-    t_gallnote::t_gallnote()
-    {
-    }
+    _gmutex.unlock();
+    return;
+}
 
-    t_gallnote::~t_gallnote()
-    {
+vector<t_gnote> t_gallnote::mesg()
+{
 
-        this->clear();
-    }
+    return _gnotes;
+}
 
-    void t_gallnote::clear()
-    {
-
-        _gmutex.lock();
-        _gnotes.clear();
-        _gmutex.unlock();
-    }
-
-    void t_gallnote::mesg(t_note note, string func, string text)
-    {
-
-        _gmutex.lock();
-
-        t_gnote gnote(note, func, text);
-
-        // eliminate repeating messages
-        bool exist = false;
-        for (auto it = _gnotes.begin(); it != _gnotes.end(); ++it)
-        {
-            if (*it == gnote)
-            {
-                exist = true;
-            }
-        }
-        if (!exist)
-            _gnotes.push_back(gnote);
-
-        _gmutex.unlock();
-        return;
-    }
-
-    vector<t_gnote> t_gallnote::mesg()
-    {
-
-        return _gnotes;
-    }
-
-} // namespace
+} // namespace gnut

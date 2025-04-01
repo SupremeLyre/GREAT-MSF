@@ -16,20 +16,20 @@
 
 -*/
 
-#include <string>
 #include <iostream>
 #include <signal.h>
+#include <string>
 
 #include "gio/gfile.h"
 //#include "gio/gtcp.h"
 //#include "gio/gserial.h"
 
+#include "gset/gsetflt.h"
 #include "gset/gsetgen.h"
+#include "gset/gsetgnss.h"
 #include "gset/gsetinp.h"
 #include "gset/gsetout.h"
 #include "gset/gsetproc.h"
-#include "gset/gsetgnss.h"
-#include "gset/gsetflt.h"
 #include "gset/gsetrec.h"
 //#include "gset/gsetpar.h"//lvhb 202007
 #include "gset/gsetamb.h"
@@ -41,15 +41,15 @@
 //#include "gset/gsetturboedit.h"
 //#include "gcoders/bncobs.h"
 //#include "gcoders/bnccorr.h"
+#include "gcoders/atx.h"
+#include "gcoders/biabernese.h"
+#include "gcoders/biasinex.h"
+#include "gcoders/blq.h"
 #include "gcoders/gcoder.h"
-#include "gcoders/rinexo.h"
 #include "gcoders/rinexc.h"
 #include "gcoders/rinexn.h"
-#include "gcoders/biasinex.h"
-#include "gcoders/biabernese.h"
+#include "gcoders/rinexo.h"
 #include "gcoders/sp3.h"
-#include "gcoders/atx.h"
-#include "gcoders/blq.h"
 #include "gcoders/upd.h"
 //#include "gcoders/aug.h"//lvhb 202007
 //#include "gcoders/ionex.h" // Fgl 202007
@@ -70,29 +70,27 @@ using namespace great;
 namespace great
 {
 
-    class LibGREAT_LIBRARY_EXPORT t_gcfg_ppp : virtual public t_gsetgen,
-        virtual public t_gsetinp,
-        virtual public t_gsetout,
-        virtual public t_gsetgnss,
-        virtual public t_gsetproc,
-        virtual public t_gsetflt,
-        virtual public t_gsetrec,
-        virtual public t_gsetamb
-    {
+class LibGREAT_LIBRARY_EXPORT t_gcfg_ppp : virtual public t_gsetgen,
+                                           virtual public t_gsetinp,
+                                           virtual public t_gsetout,
+                                           virtual public t_gsetgnss,
+                                           virtual public t_gsetproc,
+                                           virtual public t_gsetflt,
+                                           virtual public t_gsetrec,
+                                           virtual public t_gsetamb
+{
 
-    public:
-        t_gcfg_ppp();
-        ~t_gcfg_ppp();
+  public:
+    t_gcfg_ppp();
+    ~t_gcfg_ppp();
 
-        void check();                                 // settings check
-        void help();                                  // settings help
+    void check(); // settings check
+    void help();  // settings help
 
-    protected:
+  protected:
+  private:
+};
 
-    private:
-
-    };
-
-} // namespace
+} // namespace great
 
 #endif

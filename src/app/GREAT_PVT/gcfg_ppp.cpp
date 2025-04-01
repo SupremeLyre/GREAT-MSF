@@ -9,16 +9,9 @@ using namespace pugi;
 
 namespace gnut
 {
-  t_gcfg_ppp::t_gcfg_ppp()
-      : t_gsetbase(),
-        t_gsetgen(),
-        t_gsetinp(),
-        t_gsetout(),
-        t_gsetgnss(),
-        t_gsetproc(),
-        t_gsetflt(),
-        t_gsetrec()
-  {
+t_gcfg_ppp::t_gcfg_ppp()
+    : t_gsetbase(), t_gsetgen(), t_gsetinp(), t_gsetout(), t_gsetgnss(), t_gsetproc(), t_gsetflt(), t_gsetrec()
+{
     _IFMT_supported.insert(IFMT::RINEXO_INP);
     _IFMT_supported.insert(IFMT::RINEXC_INP);
     _IFMT_supported.insert(IFMT::RINEXN_INP);
@@ -36,16 +29,14 @@ namespace gnut
     _OFMT_supported.insert(LOG_OUT);
     _OFMT_supported.insert(PPP_OUT);
     _OFMT_supported.insert(FLT_OUT);
+}
 
-    
-  }
+t_gcfg_ppp::~t_gcfg_ppp()
+{
+}
 
-  t_gcfg_ppp::~t_gcfg_ppp()
-  {
-  }
-
-  void t_gcfg_ppp::check()
-  {
+void t_gcfg_ppp::check()
+{
     t_gsetgen::check();
     t_gsetinp::check();
     t_gsetout::check();
@@ -54,10 +45,10 @@ namespace gnut
     t_gsetproc::check();
     t_gsetgnss::check();
     t_gsetamb::check();
-  }
+}
 
-  void t_gcfg_ppp::help()
-  {
+void t_gcfg_ppp::help()
+{
     t_gsetbase::help_header();
     t_gsetgen::help();
     t_gsetinp::help();
@@ -68,6 +59,6 @@ namespace gnut
     t_gsetgnss::help();
     t_gsetbase::help_footer();
     t_gsetamb::help_footer();
-  }
+}
 
-} // namespace
+} // namespace gnut

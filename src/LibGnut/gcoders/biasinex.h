@@ -18,10 +18,10 @@
 #ifndef BIASINEX_H
 #define BIASINEX_H
 
+#include "gall/gallbias.h"
 #include "gcoders/gcoder.h"
 #include "gcoders/sinex.h"
 #include "gutils/gtime.h"
-#include "gall/gallbias.h"
 
 #define SNX_WINDOW_EXTENTION 6 * 3600 // [s] window for SNX temporal approximation
 
@@ -29,65 +29,65 @@ using namespace std;
 
 namespace gnut
 {
+/**
+ *@brief       Class for decoding the data
+ */
+class LibGnut_LIBRARY_EXPORT t_biasinex : public t_sinex
+{
+
+  public:
     /**
-    *@brief       Class for decoding the data
+     * @brief default constructor.
+     *
+     * @param[in]  s            setbase control
+     * @param[in]  version    version of the gcoder
+     * @param[in]  sz        size of the buffer
+     * @param[in]  id        string for reporting
+     */
+    explicit t_biasinex(t_gsetbase *s, string version, int sz = DEFAULT_BUFFER_SIZE, string id = "biasinex");
+
+    /** @brief default destructor. */
+    virtual ~t_biasinex(){};
+
+  protected:
+    /**
+    * @brief decode  data file.
+    *
+    * The function is used for decoding  file.
+    * pay attention to the buff and the size of buff which may cause some trouble when
+    using the wrong value in decoding.
+    *
+    * @return
+    @retval >=0 consume size of header decoding
+    @retval <0  finish reading
     */
-    class LibGnut_LIBRARY_EXPORT t_biasinex : public t_sinex
-    {
+    virtual int _decode_comm();
 
-    public:
-        /**
-        * @brief default constructor.
-        *
-        * @param[in]  s            setbase control
-        * @param[in]  version    version of the gcoder
-        * @param[in]  sz        size of the buffer
-        * @param[in]  id        string for reporting
-        */
-        explicit t_biasinex(t_gsetbase *s, string version, int sz = DEFAULT_BUFFER_SIZE, string id = "biasinex");
+    /**
+    * @brief decode  data file.
+    *
+    * The function is used for decoding  file.
+    * pay attention to the buff and the size of buff which may cause some trouble when
+    using the wrong value in decoding.
+    *
+    * @return
+    @retval >=0 consume size of header decoding
+    @retval <0  finish reading
+    */
+    virtual int _decode_block();
 
-        /** @brief default destructor. */
-        virtual ~t_biasinex(){};
+    /**
+     * @brief add ALLBIAS data to _allbias
+     *
+     * @param[in]  id        data type
+     * @param[in]  pt_data    ALLBIAS data
+     * @return void
+     */
+    virtual void _add_data(string id, t_gdata *pt_data);
 
-    protected:
-        /**
-        * @brief decode  data file.
-        *
-        * The function is used for decoding  file.
-        * pay attention to the buff and the size of buff which may cause some trouble when
-        using the wrong value in decoding.
-        *
-        * @return
-        @retval >=0 consume size of header decoding
-        @retval <0  finish reading
-        */
-        virtual int _decode_comm();
+    t_gallbias *_allbias; ///<
+};
 
-        /**
-        * @brief decode  data file.
-        *
-        * The function is used for decoding  file.
-        * pay attention to the buff and the size of buff which may cause some trouble when
-        using the wrong value in decoding.
-        *
-        * @return
-        @retval >=0 consume size of header decoding
-        @retval <0  finish reading
-        */
-        virtual int _decode_block();
-
-        /**
-        * @brief add ALLBIAS data to _allbias
-        *
-        * @param[in]  id        data type
-        * @param[in]  pt_data    ALLBIAS data
-        * @return void
-        */
-        virtual void _add_data(string id, t_gdata *pt_data);
-
-        t_gallbias *_allbias; ///< 
-    };
-
-} // namespace
+} // namespace gnut
 
 #endif

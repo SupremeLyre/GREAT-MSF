@@ -21,8 +21,8 @@
 #ifndef GEOP_H
 #define GEOP_H
 
-#include "gexport/ExportLibGnut.h"
 #include "gdata/gdata.h"
+#include "gexport/ExportLibGnut.h"
 #include "gutils/gconst.h"
 #include "gutils/gtime.h"
 #include "gutils/gtriple.h"
@@ -32,27 +32,27 @@ using namespace std;
 namespace gnut
 {
 
-    /** @brief class for t_geop. */
-    class LibGnut_LIBRARY_EXPORT t_geop
-    {
+/** @brief class for t_geop. */
+class LibGnut_LIBRARY_EXPORT t_geop
+{
 
-    public:
-        /** @brief default constructor. */
-        t_geop();
+  public:
+    /** @brief default constructor. */
+    t_geop();
 
-        /** @brief default destructor. */
-        virtual ~t_geop();
+    /** @brief default destructor. */
+    virtual ~t_geop();
 
-        /** @brief Nutation Matrix. */
-        Matrix nutMatrix(double mjd);
+    /** @brief Nutation Matrix. */
+    Matrix nutMatrix(double mjd);
 
-        /** @brief Precession Matrix. */
-        Matrix precMatrix(double mjd);
+    /** @brief Precession Matrix. */
+    Matrix precMatrix(double mjd);
 
-        /** @brief Normalize angle into interval 0 - 2pi. */
-        double _normangle(double x);
-    };
+    /** @brief Normalize angle into interval 0 - 2pi. */
+    double _normangle(double x);
+};
 
-} // namespace
+} // namespace gnut
 
 #endif

@@ -40,49 +40,49 @@ Reference:
 #ifndef GGMF_H
 #define GGMF_H
 
-#include <iostream>
 #include <iomanip>
-#include <string.h>
+#include <iostream>
 #include <math.h>
+#include <string.h>
 
-#include "gutils/gconst.h"
 #include "gexport/ExportLibGnut.h"
+#include "gutils/gconst.h"
 
 using namespace std;
 
 namespace gnut
 {
 
-    /** @brief class for t_gmf. */
-    class LibGnut_LIBRARY_EXPORT t_gmf
-    {
+/** @brief class for t_gmf. */
+class LibGnut_LIBRARY_EXPORT t_gmf
+{
 
-    public:
-        /** @brief default constructor. */
-        t_gmf(){};
+  public:
+    /** @brief default constructor. */
+    t_gmf(){};
 
-        /** @brief default destructor. */
-        ~t_gmf(){};
+    /** @brief default destructor. */
+    ~t_gmf(){};
 
-        /**
-        *@brief       GMF Global mapping function
-        * dlat, dlon --> RADIANS ! 
-        */
-        int gmf(double dmjd, double dlat, double dlon, double dhgt, double zd,
-                double &gmfh, double &gmfw, double &dgmfh, double &dgmfw);
+    /**
+     *@brief       GMF Global mapping function
+     * dlat, dlon --> RADIANS !
+     */
+    int gmf(double dmjd, double dlat, double dlon, double dhgt, double zd, double &gmfh, double &gmfw, double &dgmfh,
+            double &dgmfw);
 
-    protected:
-        static double ah_mean[55];
-        static double bh_mean[55];
-        static double ah_amp[55];
-        static double bh_amp[55];
-        static double aw_mean[55];
-        static double bw_mean[55];
-        static double aw_amp[55];
-        static double bw_amp[55];
+  protected:
+    static double ah_mean[55];
+    static double bh_mean[55];
+    static double ah_amp[55];
+    static double bh_amp[55];
+    static double aw_mean[55];
+    static double bw_mean[55];
+    static double aw_amp[55];
+    static double bw_amp[55];
 
-    private:
-    };
-}
+  private:
+};
+} // namespace gnut
 
 #endif

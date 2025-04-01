@@ -12,7 +12,7 @@
 #include "gset/gsetins.h"
 #include "gutils/gsysconv.h"
 
-UNIT_TYPE great::str2Unit(const string& s)
+UNIT_TYPE great::str2Unit(const string &s)
 {
     string tmp = s;
     transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
@@ -38,7 +38,7 @@ UNIT_TYPE great::str2Unit(const string& s)
     return res;
 }
 
-ALIGN_TYPE great::str2align(const string& s)
+ALIGN_TYPE great::str2align(const string &s)
 {
     string tmp = s;
     transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
@@ -57,7 +57,7 @@ ALIGN_TYPE great::str2align(const string& s)
     return STC_AGN;
 }
 
-CPS_TYPE great::str2cps(const string& s)
+CPS_TYPE great::str2cps(const string &s)
 {
     string tmp = s;
     transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
@@ -149,11 +149,11 @@ void great::t_gsetins::help()
 {
     _gmutex.lock();
     cerr << " <ins \n"
-        << "   ts=\"" << _ts << "\" \n"
-        << "   gyro_unit=\"" << _GyroUnit << "\" \n"
-        << "   acce_unit=\"" << _AcceUnit << "\" \n"
+         << "   ts=\"" << _ts << "\" \n"
+         << "   gyro_unit=\"" << _GyroUnit << "\" \n"
+         << "   acce_unit=\"" << _AcceUnit << "\" \n"
 
-        << "  />\n";
+         << "  />\n";
 
     _gmutex.unlock();
 }
@@ -162,7 +162,8 @@ string great::t_gsetins::order()
 {
     _gmutex.lock();
 
-    string res = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("AxisOrder").attribute("Type").value();
+    string res =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("AxisOrder").attribute("Type").value();
     transform(res.begin(), res.end(), res.begin(), ::tolower);
 
     _gmutex.unlock();
@@ -174,7 +175,8 @@ int great::t_gsetins::resampled_freq()
 {
     _gmutex.lock();
 
-    int res = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("Resample").attribute("Value").as_int();
+    int res =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("Resample").attribute("Value").as_int();
 
     _gmutex.unlock();
     return res;
@@ -184,7 +186,8 @@ great::UNIT_TYPE great::t_gsetins::GyroUnit()
 {
     _gmutex.lock();
 
-    string gyrounit = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("GyroUnit").attribute("Type").value();
+    string gyrounit =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("GyroUnit").attribute("Type").value();
 
     _gmutex.unlock();
 
@@ -195,7 +198,8 @@ great::UNIT_TYPE great::t_gsetins::AcceUnit()
 {
     _gmutex.lock();
 
-    string acceunit = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("AcceUnit").attribute("Type").value();
+    string acceunit =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("AcceUnit").attribute("Type").value();
 
     _gmutex.unlock();
 
@@ -206,7 +210,8 @@ great::UNIT_TYPE great::t_gsetins::AttUnit()
 {
     _gmutex.lock();
 
-    string attunit = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("AttUnit").attribute("Type").value();
+    string attunit =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("AttUnit").attribute("Type").value();
 
     _gmutex.unlock();
 
@@ -217,7 +222,8 @@ int great::t_gsetins::freq()
 {
     _gmutex.lock();
 
-    int res = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("Frequency").attribute("Value").as_int();
+    int res =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("Frequency").attribute("Value").as_int();
 
     _gmutex.unlock();
     return res;
@@ -227,13 +233,13 @@ double great::t_gsetins::ts()
 {
     _gmutex.lock();
 
-    _freq = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("Frequency").attribute("Value").as_int();
+    _freq =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("DataFormat").child("Frequency").attribute("Value").as_int();
     double res = 1.0 / _freq;
 
     _gmutex.unlock();
     return res;
 }
-
 
 great::UNIT_TYPE great::t_gsetins::MagUnit()
 {
@@ -260,9 +266,11 @@ Eigen::Vector3d great::t_gsetins::pos()
     }
     else if (type == "Geodetic")
     {
-        double ell[3] = { X, Y, Z }, XYZ[3];
+        double ell[3] = {X, Y, Z}, XYZ[3];
         gnut::ell2xyz(ell, XYZ, true);
-        X = XYZ[0]; Y = XYZ[1]; Z = XYZ[2];
+        X = XYZ[0];
+        Y = XYZ[1];
+        Z = XYZ[2];
     }
     else
     {
@@ -312,7 +320,6 @@ Eigen::Vector3d great::t_gsetins::att()
     return Eigen::Vector3d(X, Y, Z) * t_gglv::deg;
 }
 
-
 Eigen::Vector3d great::t_gsetins::gyro_bias()
 {
     _gmutex.lock();
@@ -331,7 +338,7 @@ Eigen::Vector3d great::t_gsetins::gyro_bias()
     }
     else
     {
-        //todo: MEAN
+        // todo: MEAN
     }
     _gmutex.unlock();
     return Eigen::Vector3d(X, Y, Z);
@@ -342,7 +349,11 @@ Eigen::Vector3d great::t_gsetins::imu_installation_rotation()
     _gmutex.lock();
     xml_node InstallationNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("Installation");
     string type = InstallationNode.attribute("Type").value();
-    if (type == "OFF") { _gmutex.unlock(); return Eigen::Vector3d::Zero(); }
+    if (type == "OFF")
+    {
+        _gmutex.unlock();
+        return Eigen::Vector3d::Zero();
+    }
     double X = InstallationNode.child("Rotation").attribute("Pitch").as_double();
     double Y = InstallationNode.child("Rotation").attribute("Roll").as_double();
     double Z = InstallationNode.child("Rotation").attribute("Yaw").as_double();
@@ -355,7 +366,11 @@ Eigen::Vector3d great::t_gsetins::imu_installation_translation()
     _gmutex.lock();
     xml_node InstallationNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("Installation");
     string type = InstallationNode.attribute("Type").value();
-    if (type == "OFF") { _gmutex.unlock(); return Eigen::Vector3d::Zero(); }
+    if (type == "OFF")
+    {
+        _gmutex.unlock();
+        return Eigen::Vector3d::Zero();
+    }
     double X = InstallationNode.child("Lever").attribute("X").as_double();
     double Y = InstallationNode.child("Lever").attribute("Y").as_double();
     double Z = InstallationNode.child("Lever").attribute("Z").as_double();
@@ -381,13 +396,12 @@ Eigen::Vector3d great::t_gsetins::acce_bias()
     }
     else
     {
-        //todo: MEAN
+        // todo: MEAN
     }
 
     _gmutex.unlock();
     return Eigen::Vector3d(X, Y, Z);
 }
-
 
 int great::t_gsetins::cps()
 {
@@ -402,7 +416,8 @@ int great::t_gsetins::subsample()
     _gmutex.lock();
     int x = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("Compensation").attribute("Subsample").as_int();
     _gmutex.unlock();
-    if (!x)x = 1;
+    if (!x)
+        x = 1;
     return x;
 }
 
@@ -426,13 +441,13 @@ double great::t_gsetins::end()
     return res;
 }
 
-
 bool great::t_gsetins::align()
 {
     _gmutex.lock();
     string res = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("Alignment").attribute("Type").value();
     bool x = false;
-    if (res != "OFF")x = true;
+    if (res != "OFF")
+        x = true;
     _gmutex.unlock();
     return x;
 }
@@ -452,7 +467,12 @@ double great::t_gsetins::align_time()
 {
     _gmutex.lock();
 
-    double res = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("Alignment").child("CoarseAlignTime").attribute("Value").as_double();
+    double res = _doc.child(XMLKEY_ROOT)
+                     .child(XMLKEY_INS)
+                     .child("Alignment")
+                     .child("CoarseAlignTime")
+                     .attribute("Value")
+                     .as_double();
 
     _gmutex.unlock();
     return res;
@@ -462,7 +482,12 @@ double great::t_gsetins::pos_dist()
 {
     _gmutex.lock();
 
-    double res = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("Alignment").child("PositionVector").attribute("Value").as_double();
+    double res = _doc.child(XMLKEY_ROOT)
+                     .child(XMLKEY_INS)
+                     .child("Alignment")
+                     .child("PositionVector")
+                     .attribute("Value")
+                     .as_double();
 
     _gmutex.unlock();
     return res;
@@ -472,7 +497,12 @@ double great::t_gsetins::vel_norm()
 {
     _gmutex.lock();
 
-    double res = _doc.child(XMLKEY_ROOT).child(XMLKEY_INS).child("Alignment").child("VelocityVector").attribute("Value").as_double();
+    double res = _doc.child(XMLKEY_ROOT)
+                     .child(XMLKEY_INS)
+                     .child("Alignment")
+                     .child("VelocityVector")
+                     .attribute("Value")
+                     .as_double();
 
     _gmutex.unlock();
     return res;
@@ -509,8 +539,8 @@ vector<string> great::t_gsetins::motion()
 /********************************** IMUErrorModel *****************************************/
 map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
 {
-    IMU_TYPE imu_type; map<IMU_TYPE, ErrorModel> map_imu_error_models;
-
+    IMU_TYPE imu_type;
+    map<IMU_TYPE, ErrorModel> map_imu_error_models;
 
     imu_type = IMU_TYPE::NovAtel_SPAN_FSAS;
     map_imu_error_models.insert(make_pair(imu_type, ErrorModel()));
@@ -519,14 +549,17 @@ map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
     map_imu_error_models[imu_type].PosInitialSTD = Eigen::Vector3d(3, 3, 3);
 
     map_imu_error_models[imu_type].GyroBiasInitialSTD = Eigen::Vector3d(0.324, 0.324, 0.324);
-    map_imu_error_models[imu_type].AcceBiasInitialSTD = Eigen::Vector3d(2.000e-002, 2.000e-002, 5.000e-002) / t_gglv::mg;
+    map_imu_error_models[imu_type].AcceBiasInitialSTD =
+        Eigen::Vector3d(2.000e-002, 2.000e-002, 5.000e-002) / t_gglv::mg;
 
     map_imu_error_models[imu_type].AttProcNoisePSD = Eigen::Vector3d(6.350, 6.350, 6.350) * t_gglv::mpsh;
-    map_imu_error_models[imu_type].VelProcNoisePSD = Eigen::Vector3d(2.500e-007, 2.500e-007, 8.100e-007) / t_gglv::mgpsHz;
+    map_imu_error_models[imu_type].VelProcNoisePSD =
+        Eigen::Vector3d(2.500e-007, 2.500e-007, 8.100e-007) / t_gglv::mgpsHz;
     map_imu_error_models[imu_type].PosProcNoisePSD = Eigen::Vector3d(1.000e-006, 1.000e-006, 1.000e-006) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].GyroBiasProcNoisePSD = Eigen::Vector3d(3.240e-012, 3.240e-012, 3.240e-012) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].AcceBiasProcNoisePSD = Eigen::Vector3d(9.000e-010, 9.000e-010, 9.000e-010) / t_gglv::mgpsh;
-
+    map_imu_error_models[imu_type].GyroBiasProcNoisePSD =
+        Eigen::Vector3d(3.240e-012, 3.240e-012, 3.240e-012) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].AcceBiasProcNoisePSD =
+        Eigen::Vector3d(9.000e-010, 9.000e-010, 9.000e-010) / t_gglv::mgpsh;
 
     imu_type = IMU_TYPE::NovAtel_SPAN_CPT;
     map_imu_error_models.insert(make_pair(imu_type, ErrorModel()));
@@ -534,15 +567,21 @@ map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
     map_imu_error_models[imu_type].VelInitialSTD = Eigen::Vector3d(0.5, 0.5, 0.5);
     map_imu_error_models[imu_type].PosInitialSTD = Eigen::Vector3d(3, 3, 3);
 
-    map_imu_error_models[imu_type].GyroBiasInitialSTD = Eigen::Vector3d(1.99999800e+001, 1.99999800e+001, 1.99999800e+001);
-    map_imu_error_models[imu_type].AcceBiasInitialSTD = Eigen::Vector3d(5.00000000e-002, 5.00000000e-002, 5.00000000e-002) / t_gglv::mg;
+    map_imu_error_models[imu_type].GyroBiasInitialSTD =
+        Eigen::Vector3d(1.99999800e+001, 1.99999800e+001, 1.99999800e+001);
+    map_imu_error_models[imu_type].AcceBiasInitialSTD =
+        Eigen::Vector3d(5.00000000e-002, 5.00000000e-002, 5.00000000e-002) / t_gglv::mg;
 
-    map_imu_error_models[imu_type].AttProcNoisePSD = Eigen::Vector3d(9.80100000e+001, 9.80100000e+001, 9.80100000e+001) * t_gglv::mpsh;
-    map_imu_error_models[imu_type].VelProcNoisePSD = Eigen::Vector3d(4.68722500e-008, 4.68722500e-008, 4.68722500e-008) / t_gglv::mgpsHz;
-    map_imu_error_models[imu_type].PosProcNoisePSD = Eigen::Vector3d(1.00000000e-008, 1.00000000e-008, 1.00000000e-008) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].GyroBiasProcNoisePSD = Eigen::Vector3d(7.71595062e-012, 7.71595062e-012, 7.71595062e-012) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].AcceBiasProcNoisePSD = Eigen::Vector3d(4.38906250e-009, 4.38906250e-009, 4.38906250e-009) / t_gglv::mgpsh;
-
+    map_imu_error_models[imu_type].AttProcNoisePSD =
+        Eigen::Vector3d(9.80100000e+001, 9.80100000e+001, 9.80100000e+001) * t_gglv::mpsh;
+    map_imu_error_models[imu_type].VelProcNoisePSD =
+        Eigen::Vector3d(4.68722500e-008, 4.68722500e-008, 4.68722500e-008) / t_gglv::mgpsHz;
+    map_imu_error_models[imu_type].PosProcNoisePSD =
+        Eigen::Vector3d(1.00000000e-008, 1.00000000e-008, 1.00000000e-008) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].GyroBiasProcNoisePSD =
+        Eigen::Vector3d(7.71595062e-012, 7.71595062e-012, 7.71595062e-012) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].AcceBiasProcNoisePSD =
+        Eigen::Vector3d(4.38906250e-009, 4.38906250e-009, 4.38906250e-009) / t_gglv::mgpsh;
 
     imu_type = IMU_TYPE::NovAtel_SPAN_uIRS;
     map_imu_error_models.insert(make_pair(imu_type, ErrorModel()));
@@ -550,15 +589,21 @@ map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
     map_imu_error_models[imu_type].VelInitialSTD = Eigen::Vector3d(0.5, 0.5, 0.5);
     map_imu_error_models[imu_type].PosInitialSTD = Eigen::Vector3d(3, 3, 3);
 
-    map_imu_error_models[imu_type].GyroBiasInitialSTD = Eigen::Vector3d(3.60000000e-003, 3.60000000e-003, 3.60000000e-003);
-    map_imu_error_models[imu_type].AcceBiasInitialSTD = Eigen::Vector3d(3.00000000e-004, 3.00000000e-004, 3.00000000e-004) / t_gglv::mg;
+    map_imu_error_models[imu_type].GyroBiasInitialSTD =
+        Eigen::Vector3d(3.60000000e-003, 3.60000000e-003, 3.60000000e-003);
+    map_imu_error_models[imu_type].AcceBiasInitialSTD =
+        Eigen::Vector3d(3.00000000e-004, 3.00000000e-004, 3.00000000e-004) / t_gglv::mg;
 
-    map_imu_error_models[imu_type].AttProcNoisePSD = Eigen::Vector3d(1.00000080e-001, 1.00000080e-001, 1.00000080e-001) * t_gglv::mpsh;
-    map_imu_error_models[imu_type].VelProcNoisePSD = Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mgpsHz;
-    map_imu_error_models[imu_type].PosProcNoisePSD = Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].GyroBiasProcNoisePSD = Eigen::Vector3d(9.99998950e-012, 9.99998950e-012, 9.99998950e-012) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].AcceBiasProcNoisePSD = Eigen::Vector3d(9.99799104e-014, 9.99799104e-014, 9.99799104e-014) / t_gglv::mgpsh;
-
+    map_imu_error_models[imu_type].AttProcNoisePSD =
+        Eigen::Vector3d(1.00000080e-001, 1.00000080e-001, 1.00000080e-001) * t_gglv::mpsh;
+    map_imu_error_models[imu_type].VelProcNoisePSD =
+        Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mgpsHz;
+    map_imu_error_models[imu_type].PosProcNoisePSD =
+        Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].GyroBiasProcNoisePSD =
+        Eigen::Vector3d(9.99998950e-012, 9.99998950e-012, 9.99998950e-012) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].AcceBiasProcNoisePSD =
+        Eigen::Vector3d(9.99799104e-014, 9.99799104e-014, 9.99799104e-014) / t_gglv::mgpsh;
 
     imu_type = IMU_TYPE::NovAtel_SPAN_LCI100C;
     map_imu_error_models.insert(make_pair(imu_type, ErrorModel()));
@@ -566,14 +611,21 @@ map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
     map_imu_error_models[imu_type].VelInitialSTD = Eigen::Vector3d(0.5, 0.5, 0.5);
     map_imu_error_models[imu_type].PosInitialSTD = Eigen::Vector3d(3, 3, 3);
 
-    map_imu_error_models[imu_type].GyroBiasInitialSTD = Eigen::Vector3d(3.24000000e-001, 3.24000000e-001, 3.24000000e-001);
-    map_imu_error_models[imu_type].AcceBiasInitialSTD = Eigen::Vector3d(2.00000000e-002, 2.00000000e-002, 2.00000000e-002) / t_gglv::mg;
+    map_imu_error_models[imu_type].GyroBiasInitialSTD =
+        Eigen::Vector3d(3.24000000e-001, 3.24000000e-001, 3.24000000e-001);
+    map_imu_error_models[imu_type].AcceBiasInitialSTD =
+        Eigen::Vector3d(2.00000000e-002, 2.00000000e-002, 2.00000000e-002) / t_gglv::mg;
 
-    map_imu_error_models[imu_type].AttProcNoisePSD = Eigen::Vector3d(1.00000160e+000, 1.00000160e+000, 1.00000160e+000) * t_gglv::mpsh;
-    map_imu_error_models[imu_type].VelProcNoisePSD = Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mgpsHz;
-    map_imu_error_models[imu_type].PosProcNoisePSD = Eigen::Vector3d(1.00000000e-008, 1.00000000e-008, 1.00000000e-008) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].GyroBiasProcNoisePSD = Eigen::Vector3d(9.99998950e-016, 9.99998950e-016, 9.99998950e-016) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].AcceBiasProcNoisePSD = Eigen::Vector3d(2.50000000e-009, 2.50000000e-009, 2.50000000e-009) / t_gglv::mgpsh;
+    map_imu_error_models[imu_type].AttProcNoisePSD =
+        Eigen::Vector3d(1.00000160e+000, 1.00000160e+000, 1.00000160e+000) * t_gglv::mpsh;
+    map_imu_error_models[imu_type].VelProcNoisePSD =
+        Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mgpsHz;
+    map_imu_error_models[imu_type].PosProcNoisePSD =
+        Eigen::Vector3d(1.00000000e-008, 1.00000000e-008, 1.00000000e-008) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].GyroBiasProcNoisePSD =
+        Eigen::Vector3d(9.99998950e-016, 9.99998950e-016, 9.99998950e-016) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].AcceBiasProcNoisePSD =
+        Eigen::Vector3d(2.50000000e-009, 2.50000000e-009, 2.50000000e-009) / t_gglv::mgpsh;
 
     imu_type = IMU_TYPE::Navigation_Grade;
     map_imu_error_models.insert(make_pair(imu_type, ErrorModel()));
@@ -586,10 +638,10 @@ map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
 
     map_imu_error_models[imu_type].AttProcNoisePSD = Eigen::Vector3d(1.0, 1.0, 1.0) * t_gglv::mpsh;
     map_imu_error_models[imu_type].VelProcNoisePSD = Eigen::Vector3d(1.0e-6, 1.0e-6, 1.0e-6) / t_gglv::mgpsHz;
-    map_imu_error_models[imu_type].PosProcNoisePSD = Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].PosProcNoisePSD =
+        Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mpsh;
     map_imu_error_models[imu_type].GyroBiasProcNoisePSD = Eigen::Vector3d(1.0e-11, 1.0e-11, 1.0e-11) / t_gglv::mpsh;
     map_imu_error_models[imu_type].AcceBiasProcNoisePSD = Eigen::Vector3d(1.0e-11, 1.0e-11, 1.0e-11) / t_gglv::mgpsh;
-
 
     imu_type = IMU_TYPE::Tactical_Grade;
     map_imu_error_models.insert(make_pair(imu_type, ErrorModel()));
@@ -602,10 +654,10 @@ map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
 
     map_imu_error_models[imu_type].AttProcNoisePSD = Eigen::Vector3d(20.0, 20.0, 20.0) * t_gglv::mpsh;
     map_imu_error_models[imu_type].VelProcNoisePSD = Eigen::Vector3d(1.0e-6, 1.0e-6, 1.0e-6) / t_gglv::mgpsHz;
-    map_imu_error_models[imu_type].PosProcNoisePSD = Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].PosProcNoisePSD =
+        Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mpsh;
     map_imu_error_models[imu_type].GyroBiasProcNoisePSD = Eigen::Vector3d(1.0e-7, 1.0e-7, 1.0e-7) / t_gglv::mpsh;
     map_imu_error_models[imu_type].AcceBiasProcNoisePSD = Eigen::Vector3d(1.0e-7, 1.0e-7, 1.0e-7) / t_gglv::mgpsh;
-
 
     imu_type = IMU_TYPE::MEMS_Grade;
     map_imu_error_models.insert(make_pair(imu_type, ErrorModel()));
@@ -618,10 +670,10 @@ map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
 
     map_imu_error_models[imu_type].AttProcNoisePSD = Eigen::Vector3d(100000, 100000, 100000) * t_gglv::mpsh;
     map_imu_error_models[imu_type].VelProcNoisePSD = Eigen::Vector3d(1.0e-6, 1.0e-6, 1.0e-6) / t_gglv::mgpsHz;
-    map_imu_error_models[imu_type].PosProcNoisePSD = Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].PosProcNoisePSD =
+        Eigen::Vector3d(1.00000000e-006, 1.00000000e-006, 1.00000000e-006) / t_gglv::mpsh;
     map_imu_error_models[imu_type].GyroBiasProcNoisePSD = Eigen::Vector3d(1.0e-4, 1.0e-4, 1.0e-4) / t_gglv::mpsh;
     map_imu_error_models[imu_type].AcceBiasProcNoisePSD = Eigen::Vector3d(1.0e-4, 1.0e-4, 1.0e-4) / t_gglv::mgpsh;
-
 
     imu_type = IMU_TYPE::NovAtel_SPAN_ADIS16488;
     map_imu_error_models.insert(make_pair(imu_type, ErrorModel()));
@@ -629,15 +681,21 @@ map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
     map_imu_error_models[imu_type].VelInitialSTD = Eigen::Vector3d(0.5, 0.5, 0.5);
     map_imu_error_models[imu_type].PosInitialSTD = Eigen::Vector3d(3, 3, 3);
 
-    map_imu_error_models[imu_type].GyroBiasInitialSTD = Eigen::Vector3d(7.20000000e+002, 7.20000000e+002, 7.20000000e+002);
-    map_imu_error_models[imu_type].AcceBiasInitialSTD = Eigen::Vector3d(5.00000000e-002, 5.00000000e-002, 5.00000000e-002) / t_gglv::mg;
+    map_imu_error_models[imu_type].GyroBiasInitialSTD =
+        Eigen::Vector3d(7.20000000e+002, 7.20000000e+002, 7.20000000e+002);
+    map_imu_error_models[imu_type].AcceBiasInitialSTD =
+        Eigen::Vector3d(5.00000000e-002, 5.00000000e-002, 5.00000000e-002) / t_gglv::mg;
 
-    map_imu_error_models[imu_type].AttProcNoisePSD = Eigen::Vector3d(3.24000000e+002, 3.24000000e+002, 3.24000000e+002) * t_gglv::mpsh;
-    map_imu_error_models[imu_type].VelProcNoisePSD = Eigen::Vector3d(4.68722500e-006, 4.68722500e-006, 4.68722500e-006) / t_gglv::mgpsHz;
-    map_imu_error_models[imu_type].PosProcNoisePSD = Eigen::Vector3d(1.00000000e-004, 1.00000000e-004, 1.00000000e-004) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].GyroBiasProcNoisePSD = Eigen::Vector3d(9.56014618e-003, 9.56014618e-003, 9.56014618e-003) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].AcceBiasProcNoisePSD = Eigen::Vector3d(3.16406250e-009, 3.16406250e-009, 3.16406250e-009) / t_gglv::mgpsh;
-
+    map_imu_error_models[imu_type].AttProcNoisePSD =
+        Eigen::Vector3d(3.24000000e+002, 3.24000000e+002, 3.24000000e+002) * t_gglv::mpsh;
+    map_imu_error_models[imu_type].VelProcNoisePSD =
+        Eigen::Vector3d(4.68722500e-006, 4.68722500e-006, 4.68722500e-006) / t_gglv::mgpsHz;
+    map_imu_error_models[imu_type].PosProcNoisePSD =
+        Eigen::Vector3d(1.00000000e-004, 1.00000000e-004, 1.00000000e-004) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].GyroBiasProcNoisePSD =
+        Eigen::Vector3d(9.56014618e-003, 9.56014618e-003, 9.56014618e-003) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].AcceBiasProcNoisePSD =
+        Eigen::Vector3d(3.16406250e-009, 3.16406250e-009, 3.16406250e-009) / t_gglv::mgpsh;
 
     imu_type = IMU_TYPE::ADIS16470;
     map_imu_error_models.insert(make_pair(imu_type, ErrorModel()));
@@ -645,15 +703,21 @@ map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
     map_imu_error_models[imu_type].VelInitialSTD = Eigen::Vector3d(0.5, 0.5, 0.5);
     map_imu_error_models[imu_type].PosInitialSTD = Eigen::Vector3d(3, 3, 3);
 
-    map_imu_error_models[imu_type].GyroBiasInitialSTD = Eigen::Vector3d(1.20000000e+002, 1.20000000e+002, 1.20000000e+002);
-    map_imu_error_models[imu_type].AcceBiasInitialSTD = Eigen::Vector3d(5.00000000e-002, 5.00000000e-002, 5.00000000e-002) / t_gglv::mg;
+    map_imu_error_models[imu_type].GyroBiasInitialSTD =
+        Eigen::Vector3d(1.20000000e+002, 1.20000000e+002, 1.20000000e+002);
+    map_imu_error_models[imu_type].AcceBiasInitialSTD =
+        Eigen::Vector3d(5.00000000e-002, 5.00000000e-002, 5.00000000e-002) / t_gglv::mg;
 
-    map_imu_error_models[imu_type].AttProcNoisePSD = Eigen::Vector3d(1.74000000e+001, 1.74000000e+001, 1.74000000e+001) * t_gglv::mpsh;
-    map_imu_error_models[imu_type].VelProcNoisePSD = Eigen::Vector3d(0.68722500e-003, 0.68722500e-003, 0.68722500e-003) / t_gglv::mgpsHz;
-    map_imu_error_models[imu_type].PosProcNoisePSD = Eigen::Vector3d(1.00000000e-004, 1.00000000e-004, 1.00000000e-004) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].GyroBiasProcNoisePSD = Eigen::Vector3d(8.56014618e-002, 8.56014618e-002, 8.56014618e-002) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].AcceBiasProcNoisePSD = Eigen::Vector3d(3.16406250e-004, 3.16406250e-004, 3.16406250e-004) / t_gglv::mgpsh;
-
+    map_imu_error_models[imu_type].AttProcNoisePSD =
+        Eigen::Vector3d(1.74000000e+001, 1.74000000e+001, 1.74000000e+001) * t_gglv::mpsh;
+    map_imu_error_models[imu_type].VelProcNoisePSD =
+        Eigen::Vector3d(0.68722500e-003, 0.68722500e-003, 0.68722500e-003) / t_gglv::mgpsHz;
+    map_imu_error_models[imu_type].PosProcNoisePSD =
+        Eigen::Vector3d(1.00000000e-004, 1.00000000e-004, 1.00000000e-004) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].GyroBiasProcNoisePSD =
+        Eigen::Vector3d(8.56014618e-002, 8.56014618e-002, 8.56014618e-002) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].AcceBiasProcNoisePSD =
+        Eigen::Vector3d(3.16406250e-004, 3.16406250e-004, 3.16406250e-004) / t_gglv::mgpsh;
 
     imu_type = IMU_TYPE::StarNeto;
     map_imu_error_models.insert(make_pair(imu_type, ErrorModel()));
@@ -662,13 +726,17 @@ map<IMU_TYPE, ErrorModel> great::IMUErrorModels()
     map_imu_error_models[imu_type].PosInitialSTD = Eigen::Vector3d(3, 3, 3);
 
     map_imu_error_models[imu_type].GyroBiasInitialSTD = Eigen::Vector3d(1, 1, 1);
-    map_imu_error_models[imu_type].AcceBiasInitialSTD = Eigen::Vector3d(1.000e-002, 1.000e-002, 1.000e-002) / t_gglv::mg;
+    map_imu_error_models[imu_type].AcceBiasInitialSTD =
+        Eigen::Vector3d(1.000e-002, 1.000e-002, 1.000e-002) / t_gglv::mg;
 
     map_imu_error_models[imu_type].AttProcNoisePSD = Eigen::Vector3d(16.350, 16.350, 16.350) * t_gglv::mpsh;
-    map_imu_error_models[imu_type].VelProcNoisePSD = Eigen::Vector3d(1.600e-003, 1.600e-003, 1.600e-003) / t_gglv::mgpsHz;
+    map_imu_error_models[imu_type].VelProcNoisePSD =
+        Eigen::Vector3d(1.600e-003, 1.600e-003, 1.600e-003) / t_gglv::mgpsHz;
     map_imu_error_models[imu_type].PosProcNoisePSD = Eigen::Vector3d(1.000e-006, 1.000e-006, 1.000e-006) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].GyroBiasProcNoisePSD = Eigen::Vector3d(3.240e-012, 3.240e-012, 3.240e-012) / t_gglv::mpsh;
-    map_imu_error_models[imu_type].AcceBiasProcNoisePSD = Eigen::Vector3d(9.000e-010, 9.000e-010, 9.000e-010) / t_gglv::mgpsh;
+    map_imu_error_models[imu_type].GyroBiasProcNoisePSD =
+        Eigen::Vector3d(3.240e-012, 3.240e-012, 3.240e-012) / t_gglv::mpsh;
+    map_imu_error_models[imu_type].AcceBiasProcNoisePSD =
+        Eigen::Vector3d(9.000e-010, 9.000e-010, 9.000e-010) / t_gglv::mgpsh;
 
     return map_imu_error_models;
 }

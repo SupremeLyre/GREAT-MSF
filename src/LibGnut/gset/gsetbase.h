@@ -18,13 +18,13 @@
 #ifndef GSETBASE_H
 #define GSETBASE_H
 
-#include <set>
-#include <map>
-#include <string>
 #include <iostream>
+#include <map>
+#include <set>
+#include <string>
 
-#include "gutils/gtypeconv.h"
 #include "gutils/gmutex.h"
+#include "gutils/gtypeconv.h"
 #include "pugixml/src/pugixml.hpp"
 #include "spdlog/spdlog.h"
 
@@ -39,200 +39,198 @@ using namespace pugi;
 
 namespace gnut
 {
-    enum class modeofmeanpole
-    {
-        linear,
-        cubic
-    };
+enum class modeofmeanpole
+{
+    linear,
+    cubic
+};
+
+/**
+ * @brief The base class for xml set
+ */
+class LibGnut_LIBRARY_EXPORT t_gsetbase : public pugi::xml_node
+{
+  public:
+    /** @brief constructor. */
+    t_gsetbase();
+
+    /** @brief destructor. */
+    virtual ~t_gsetbase();
 
     /**
-    * @brief The base class for xml set
-    */
-    class LibGnut_LIBRARY_EXPORT t_gsetbase : public pugi::xml_node
-    {
-    public:
-        /** @brief constructor. */
-        t_gsetbase();
+     * @brief  read configuration from file
+     * @param[in] file file name
+     */
+    int read(const string &file);
 
-        /** @brief destructor. */
-        virtual ~t_gsetbase();
+    /**
+     * @brief  read configuration from istream
+     * @param[in] is istream name
+     */
+    int read_istream(istream &is);
 
-        /**
-        * @brief  read configuration from file
-        * @param[in] file file name
-        */
-        int read(const string &file);
+    /**
+     * @brief  write configuration in file
+     * @param[in] file file name
+     */
+    int write(const string &file);
 
-        /**
-        * @brief  read configuration from istream
-        * @param[in] is istream name
-        */
-        int read_istream(istream &is);
+    /**
+     * @brief  write configuration in ostream
+     * @param[in] os istream name
+     */
+    int write_ostream(ostream &os);
 
-        /**
-        * @brief  write configuration in file
-        * @param[in] file file name
-        */
-        int write(const string &file);
+    /** @brief application name. */
+    virtual string pgm();
 
-        /**
-        * @brief  write configuration in ostream
-        * @param[in] os istream name
-        */
-        int write_ostream(ostream &os);
+    /** @brief application info/version. */
+    virtual string app();
 
-        /** @brief application name. */
-        virtual string pgm();
+    /**
+     * @brief  get some information of the application
+     * @param[out] pgm program name
+     * @param[out] ver program version
+     * @param[out] dat program running data
+     * @param[out] tim program running time
+     * @param[out] rev program revision number
+     * @param[out] own program owner name
+     */
+    virtual void app(const string &pgm, const string &ver, const string &dat, const string &tim, const string &rev,
+                     const string &own);
 
-        /** @brief application info/version. */
-        virtual string app();
+    /** @brief application usage. */
+    virtual void usage();
 
-        /**
-        * @brief  get some information of the application
-        * @param[out] pgm program name
-        * @param[out] ver program version
-        * @param[out] dat program running data
-        * @param[out] tim program running time
-        * @param[out] rev program revision number
-        * @param[out] own program owner name
-        */
-        virtual void app(const string &pgm, const string &ver,
-                         const string &dat, const string &tim,
-                         const string &rev, const string &own);
+    /**
+     * @brief  get command line arguments
+     * @param[in] argc   argument number
+     * @param[in] argv[] command line array of arguments
+     */
+    virtual void arg(int argc, char *argv[], bool add = false, bool thin = false);
 
-        /** @brief application usage. */
-        virtual void usage();
+    /** @brief settings help. */
+    virtual void help() = 0;
 
-        /**
-        * @brief  get command line arguments
-        * @param[in] argc   argument number
-        * @param[in] argv[] command line array of arguments
-        */
-        virtual void arg(int argc, char *argv[],
-                         bool add = false, bool thin = false);
+    /** @brief settings check. */
+    virtual void check() = 0;
 
-        /** @brief settings help. */
-        virtual void help() = 0;
+    /** @brief thin execution. */
+    bool thin();
 
-        /** @brief settings check. */
-        virtual void check() = 0;
+    /**
+     * @brief remove spaces, tabs and newlines in the string
+     * @param[in]  str    string
+     */
+    void str_erase(string &str);
 
-        /** @brief thin execution. */
-        bool thin();
+  protected:
+    /**
+     * @brief get the double value of ROOT.elem.attrib
+     * @param[in] elem    element name in xml
+     * @param[in] attrib  attribute name in xml
+     * @return double : The value of ROOT.elem.attribute
+     */
+    double _dblatt(const string &elem, const string &attrib);
 
-        /**
-        * @brief remove spaces, tabs and newlines in the string
-        * @param[in]  str    string
-        */
-        void str_erase(string &str); 
+    /**
+     * @brief get the set<string> value of ROOT.elem.subelem
+     * @param[in] elem    element name in xml
+     * @param[in] subelem subelem name in xml
+     * @return set<string> : The value of ROOT.elem.subelem
+     */
+    set<string> _setval(const string &elem, const string &subelem);
+    set<string> _setvals(const string &elem, const string &subelem);
 
-    protected:
-        /**
-         * @brief get the double value of ROOT.elem.attrib
-         * @param[in] elem    element name in xml
-         * @param[in] attrib  attribute name in xml
-         * @return double : The value of ROOT.elem.attribute
-         */
-        double _dblatt(const string &elem, const string &attrib);
+    /**
+     * @brief get the vector<string> value of ROOT.elem.subelem
+     * @param[in] elem    element name in xml
+     * @param[in] subelem subelem name in xml
+     * @return vector<string> : The value of ROOT.elem.subelem
+     */
+    vector<string> _vecval(const string &elem, const string &subelem);
 
-        /**
-        * @brief get the set<string> value of ROOT.elem.subelem
-        * @param[in] elem    element name in xml
-        * @param[in] subelem subelem name in xml
-        * @return set<string> : The value of ROOT.elem.subelem
-        */
-        set<string> _setval(const string &elem, const string &subelem);
-        set<string> _setvals(const string &elem, const string &subelem);
+    /**
+     * @brief get default child node of a xml node
+     * @param[in] node    the parent node
+     * @param[in] n       child node name
+     * @param[in] val     child node value
+     * @param[in] reset   reset or not
+     * @return xml_node : The child node
+     */
+    xml_node _default_node(xml_node &node, const char *n, const char *val = "", bool reset = false);
 
-        /**
-        * @brief get the vector<string> value of ROOT.elem.subelem
-        * @param[in] elem    element name in xml
-        * @param[in] subelem subelem name in xml
-        * @return vector<string> : The value of ROOT.elem.subelem
-        */
-        vector<string> _vecval(const string &elem, const string &subelem);
+    /**
+     * @brief get default node of a xml node by the attribute or reset it with v
+     * @param[in] node    the parent node
+     * @param[in] n       attribute name
+     * @param[in] v       reset value
+     * @param[in] reset   reset or not
+     * @return xml_node : The child node
+     */
+    void _default_attr(xml_node &node, const char *n, const string &v, bool reset = false);
 
-        /**
-        * @brief get default child node of a xml node
-        * @param[in] node    the parent node
-        * @param[in] n       child node name
-        * @param[in] val     child node value
-        * @param[in] reset   reset or not
-        * @return xml_node : The child node
-        */
-        xml_node _default_node(xml_node &node, const char *n, const char *val = "", bool reset = false);
+    /**
+     * @brief get default node of a xml node by the attribute or reset it with v
+     * @param[in] node    the parent node
+     * @param[in] n       attribute name
+     * @param[in] v       reset value
+     * @param[in] reset   reset or not
+     * @return xml_node : The child node
+     */
+    void _default_attr(xml_node &node, const char *n, const bool &value, bool reset = false);
 
-        /**
-        * @brief get default node of a xml node by the attribute or reset it with v
-        * @param[in] node    the parent node
-        * @param[in] n       attribute name
-        * @param[in] v       reset value
-        * @param[in] reset   reset or not
-        * @return xml_node : The child node
-        */
-        void _default_attr(xml_node &node, const char *n, const string &v, bool reset = false);
+    /**
+     * @brief get default node of a xml node by the attribute or reset it with v
+     * @param[in] node    the parent node
+     * @param[in] n       attribute name
+     * @param[in] v       reset value
+     * @param[in] reset   reset or not
+     * @return xml_node : The child node
+     */
+    void _default_attr(xml_node &node, const char *n, const int &value, bool reset = false);
 
-        /**
-        * @brief get default node of a xml node by the attribute or reset it with v
-        * @param[in] node    the parent node
-        * @param[in] n       attribute name
-        * @param[in] v       reset value
-        * @param[in] reset   reset or not
-        * @return xml_node : The child node
-        */
-        void _default_attr(xml_node &node, const char *n, const bool &value, bool reset = false);
+    /**
+     * @brief get default node of a xml node by the attribute or reset it with v
+     * @param[in] node    the parent node
+     * @param[in] n       attribute name
+     * @param[in] v       reset value
+     * @param[in] reset   reset or not
+     * @return xml_node : The child node
+     */
+    void _default_attr(xml_node &node, const char *n, const double &value, bool reset = false);
 
-        /**
-        * @brief get default node of a xml node by the attribute or reset it with v
-        * @param[in] node    the parent node
-        * @param[in] n       attribute name
-        * @param[in] v       reset value
-        * @param[in] reset   reset or not
-        * @return xml_node : The child node
-        */
-        void _default_attr(xml_node &node, const char *n, const int &value, bool reset = false);
+    /** @brief report element issues. */
+    void _add_log(string element, string msg);
 
-        /**
-        * @brief get default node of a xml node by the attribute or reset it with v
-        * @param[in] node    the parent node
-        * @param[in] n       attribute name
-        * @param[in] v       reset value
-        * @param[in] reset   reset or not
-        * @return xml_node : The child node
-        */
-        void _default_attr(xml_node &node, const char *n, const double &value, bool reset = false);
+    /** @brief XML settings header. */
+    virtual void help_header();
 
-        /** @brief report element issues. */
-        void _add_log(string element, string msg);
+    /** @brief XML settings footer. */
+    virtual void help_footer();
 
-        /** @brief XML settings header. */
-        virtual void help_header();
+    xml_document _doc;     ///< root document
+    xml_parse_result _irc; ///< result status
 
-        /** @brief XML settings footer. */
-        virtual void help_footer();
+  protected:
+    string _name;      ///< configuration name
+    string _delimiter; ///< delimiter for writting nodes/elements
 
-        xml_document _doc;     ///< root document
-        xml_parse_result _irc; ///< result status
+    string _pgm; ///< program name
+    string _ver; ///< program version
+    string _rev; ///< program revision
+    string _own; ///< program owner
+    string _dat; ///< program data
+    string _tim; ///< program time
 
-    protected:
-        string _name;      ///< configuration name
-        string _delimiter; ///< delimiter for writting nodes/elements
+    set<string> _set;                     ///< program settings
+    map<string, set<string>> _chache_log; ///< The chache of log pointer
 
-        string _pgm; ///< program name
-        string _ver; ///< program version
-        string _rev; ///< program revision
-        string _own; ///< program owner
-        string _dat; ///< program data
-        string _tim; ///< program time
+    mutable t_gmutex _gmutex; ///< For the thread
 
-        set<string> _set;                     ///< program settings
-        map<string, set<string>> _chache_log; ///< The chache of log pointer
+  private:
+};
 
-        mutable t_gmutex _gmutex; ///< For the thread
-
-    private:
-    };
-
-} // namespace
+} // namespace gnut
 
 #endif

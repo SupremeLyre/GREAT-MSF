@@ -25,59 +25,59 @@ using namespace std;
 
 namespace gnut
 {
+/**
+ *@brief       Class for decoding the atx data derive from t_gcoder
+ */
+class LibGnut_LIBRARY_EXPORT t_atx : public t_gcoder
+{
+  public:
     /**
-    *@brief       Class for decoding the atx data derive from t_gcoder
+     * @brief default constructor.
+     *
+     * @param[in]  s        setbase control
+     * @param[in]  version  version of the gcoder
+     * @param[in]  sz       size of the buffer
+     */
+    explicit t_atx(t_gsetbase *s, string version = "", int sz = DEFAULT_BUFFER_SIZE);
+
+    /** @brief default destructor. */
+    virtual ~t_atx(){};
+
+    /**
+    * @brief decode the header of the atx data file.
+    *
+    * The function is used for decoding the head of atx file.
+    * pay attention to the buff and the size of buff which may cause some trouble when
+    using the wrong value in decoding.
+    *
+    * @param[in]  buff        buffer of the data
+    * @param[in]  bufLen      buffer size of the data
+    * @param[out] errmsg      error message of the data decoding
+    * @return
+    @retval >=0 consume size of header decoding
+    @retval <0  finish reading
     */
-    class LibGnut_LIBRARY_EXPORT t_atx : public t_gcoder
-    {
-    public:
-        /**
-        * @brief default constructor.
-        *
-        * @param[in]  s        setbase control
-        * @param[in]  version  version of the gcoder
-        * @param[in]  sz       size of the buffer
-        */
-        explicit t_atx(t_gsetbase *s, string version = "", int sz = DEFAULT_BUFFER_SIZE);
+    virtual int decode_head(char *buff, int bufLen, vector<string> &errmsg);
 
-        /** @brief default destructor. */
-        virtual ~t_atx(){};
+    /**
+    * @brief decode the data body of the atx data file.
+    *
+    * decode data body of atx file, all the data read will store in the gpcv???
+    *
+    * @param[in]  buff        buffer of the data
+    * @param[in]  bufLen      buffer size of the data
+    * @param[out] cnt          number of line
+    * @param[out] errmsg      error message of the data decoding
+    * @return
+    @retval >=0 consume size of body decoding
+    @retval <0  finish reading
+    */
+    virtual int decode_data(char *buff, int bufLen, int &cnt, vector<string> &errmsg);
 
-        /**
-        * @brief decode the header of the atx data file.
-        *
-        * The function is used for decoding the head of atx file.
-        * pay attention to the buff and the size of buff which may cause some trouble when
-        using the wrong value in decoding.
-        *
-        * @param[in]  buff        buffer of the data
-        * @param[in]  bufLen      buffer size of the data
-        * @param[out] errmsg      error message of the data decoding
-        * @return
-        @retval >=0 consume size of header decoding
-        @retval <0  finish reading
-        */
-        virtual int decode_head(char *buff, int bufLen, vector<string> &errmsg);
+  protected:
+  private:
+};
 
-        /**
-        * @brief decode the data body of the atx data file.
-        *
-        * decode data body of atx file, all the data read will store in the gpcv???
-        *
-        * @param[in]  buff        buffer of the data
-        * @param[in]  bufLen      buffer size of the data
-        * @param[out] cnt          number of line
-        * @param[out] errmsg      error message of the data decoding
-        * @return
-        @retval >=0 consume size of body decoding
-        @retval <0  finish reading
-        */
-        virtual int decode_data(char *buff, int bufLen, int &cnt, vector<string> &errmsg);
-
-    protected:
-    private:
-    };
-
-} // namespace
+} // namespace gnut
 
 #endif

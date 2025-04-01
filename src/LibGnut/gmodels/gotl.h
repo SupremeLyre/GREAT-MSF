@@ -32,40 +32,40 @@ using namespace std;
 namespace gnut
 {
 
-    /** @brief class for t_gotl based t_gdata. */
-    class t_gotl : public t_gdata
-    {
+/** @brief class for t_gotl based t_gdata. */
+class t_gotl : public t_gdata
+{
 
-    public:
-        /** @brief default constructor. */
-        t_gotl();
+  public:
+    /** @brief default constructor. */
+    t_gotl();
 
-        t_gotl(t_spdlog spdlog);
-        /** @brief default destructor. */
-        ~t_gotl();
+    t_gotl(t_spdlog spdlog);
+    /** @brief default destructor. */
+    ~t_gotl();
 
-        /** @brief get the site. */
-        string site();
+    /** @brief get the site. */
+    string site();
 
-        /** @brief get the latitude. */
-        double lat();
+    /** @brief get the latitude. */
+    double lat();
 
-        /** @brief get the lontitude. */
-        double lon();
+    /** @brief get the lontitude. */
+    double lon();
 
-        /** @brief get the data. */
-        Matrix data();
+    /** @brief get the data. */
+    Matrix data();
 
-        /** @brief set the data. */
-        void setdata(const string &site, const double &lon, const double &lat, const Matrix &data);
+    /** @brief set the data. */
+    void setdata(const string &site, const double &lon, const double &lat, const Matrix &data);
 
-    private:
-        string _site; ///< site
-        Matrix _data; ///< data
-        double _lat;  ///< latitude
-        double _lon;  ///< lontitude
-    };
+  private:
+    string _site; ///< site
+    Matrix _data; ///< data
+    double _lat;  ///< latitude
+    double _lon;  ///< lontitude
+};
 
-} // namespace
+} // namespace gnut
 
 #endif

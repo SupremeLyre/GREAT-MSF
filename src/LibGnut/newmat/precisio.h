@@ -25,78 +25,75 @@ namespace NEWMAT
 #include <cfloat> // for FLT_MAX
 #endif
 
-    /// Floating point precision.
-    class FloatingPointPrecision
+/// Floating point precision.
+class FloatingPointPrecision
+{
+  public:
+    static int Dig() // number of decimal digits or precision
     {
-    public:
-        static int Dig() // number of decimal digits or precision
-        {
-            return std::numeric_limits<Real>::digits10;
-        }
+        return std::numeric_limits<Real>::digits10;
+    }
 
-        static Real Epsilon() // smallest number such that 1+Eps!=Eps
-        {
-            return std::numeric_limits<Real>::epsilon();
-        }
+    static Real Epsilon() // smallest number such that 1+Eps!=Eps
+    {
+        return std::numeric_limits<Real>::epsilon();
+    }
 
-        static int Mantissa() // bits in mantisa
-        {
-            return std::numeric_limits<Real>::digits;
-        }
+    static int Mantissa() // bits in mantisa
+    {
+        return std::numeric_limits<Real>::digits;
+    }
 
-        static Real Maximum() // maximum value
-        {
-            return std::numeric_limits<Real>::max();
-        }
+    static Real Maximum() // maximum value
+    {
+        return std::numeric_limits<Real>::max();
+    }
 
-        static int MaximumDecimalExponent() // maximum decimal exponent
-        {
-            return std::numeric_limits<Real>::max_exponent10;
-        }
+    static int MaximumDecimalExponent() // maximum decimal exponent
+    {
+        return std::numeric_limits<Real>::max_exponent10;
+    }
 
-        static int MaximumExponent() // maximum binary exponent
-        {
-            return std::numeric_limits<Real>::max_exponent;
-        }
+    static int MaximumExponent() // maximum binary exponent
+    {
+        return std::numeric_limits<Real>::max_exponent;
+    }
 
-        static Real LnMaximum() // natural log of maximum
-        {
-            return (Real)log(Maximum());
-        }
+    static Real LnMaximum() // natural log of maximum
+    {
+        return (Real)log(Maximum());
+    }
 
-        static Real Minimum() // minimum positive value
-        {
-            return std::numeric_limits<Real>::min();
-        }
+    static Real Minimum() // minimum positive value
+    {
+        return std::numeric_limits<Real>::min();
+    }
 
-        static int MinimumDecimalExponent() // minimum decimal exponent
-        {
-            return std::numeric_limits<Real>::min_exponent10;
-        }
+    static int MinimumDecimalExponent() // minimum decimal exponent
+    {
+        return std::numeric_limits<Real>::min_exponent10;
+    }
 
-        static int MinimumExponent() // minimum binary exponent
-        {
-            return std::numeric_limits<Real>::min_exponent;
-        }
+    static int MinimumExponent() // minimum binary exponent
+    {
+        return std::numeric_limits<Real>::min_exponent;
+    }
 
-        static Real LnMinimum() // natural log of minimum
-        {
-            return (Real)log(Minimum());
-        }
+    static Real LnMinimum() // natural log of minimum
+    {
+        return (Real)log(Minimum());
+    }
 
-        static int Radix() // exponent radix
-        {
-            return std::numeric_limits<Real>::radix;
-        }
+    static int Radix() // exponent radix
+    {
+        return std::numeric_limits<Real>::radix;
+    }
 
-        static int Rounds() // addition rounding (1 = does round)
-        {
-            return std::numeric_limits<Real>::round_style ==
-                           std::round_to_nearest
-                       ? 1
-                       : 0;
-        }
-    };
+    static int Rounds() // addition rounding (1 = does round)
+    {
+        return std::numeric_limits<Real>::round_style == std::round_to_nearest ? 1 : 0;
+    }
+};
 
 #else // _STANDARD_ not defined
 
@@ -107,7 +104,7 @@ namespace NEWMAT
 /// Floating point precision (type float).
 class FloatingPointPrecision
 {
-public:
+  public:
     static int Dig()
     {
         return FLT_DIG;
@@ -181,7 +178,7 @@ public:
 /// Floating point precision (type double).
 class FloatingPointPrecision
 {
-public:
+  public:
     static int Dig()
     {
         return DBL_DIG;
@@ -265,7 +262,7 @@ public:
 /// Floating point precision (type float).
 class FloatingPointPrecision
 {
-public:
+  public:
     static Real Epsilon()
     {
         return pow(2.0, (int)(1 - FSIGNIF));
@@ -300,7 +297,7 @@ public:
 /// Floating point precision (type double).
 class FloatingPointPrecision
 {
-public:
+  public:
     static Real Epsilon()
     {
         return pow(2.0, (int)(1 - DSIGNIF));

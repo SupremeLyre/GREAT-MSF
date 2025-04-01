@@ -37,48 +37,47 @@ Reference:
 #ifndef GGPT_H
 #define GGPT_H
 
-#include <iostream>
-#include <string.h>
-#include <math.h>
 #include "gexport/ExportLibGnut.h"
+#include <iostream>
+#include <math.h>
+#include <string.h>
 
 using namespace std;
 
 namespace gnut
 {
 
-    /** @brief class for t_gpt. */
-    class LibGnut_LIBRARY_EXPORT t_gpt
-    {
+/** @brief class for t_gpt. */
+class LibGnut_LIBRARY_EXPORT t_gpt
+{
 
-    public:
-        /** @brief default constructor. */
-        t_gpt(){};
+  public:
+    /** @brief default constructor. */
+    t_gpt(){};
 
-        /** @brief default destructor. */
-        ~t_gpt(){};
+    /** @brief default destructor. */
+    ~t_gpt(){};
 
-        /**
-        *@brief       GPT empirical model v1
-        * dlat, dlon --> RADIANS !
-        */
-        int gpt_v1(double dmjd, double dlat, double dlon, double dhgt,
-                   double &pres, double &temp, double &undu);
+    /**
+     *@brief       GPT empirical model v1
+     * dlat, dlon --> RADIANS !
+     */
+    int gpt_v1(double dmjd, double dlat, double dlon, double dhgt, double &pres, double &temp, double &undu);
 
-    protected:
-        static double a_geoid[55];
-        static double b_geoid[55];
-        static double ap_mean[55];
-        static double bp_mean[55];
-        static double ap_amp[55];
-        static double bp_amp[55];
-        static double at_mean[55];
-        static double bt_mean[55];
-        static double at_amp[55];
-        static double bt_amp[55];
+  protected:
+    static double a_geoid[55];
+    static double b_geoid[55];
+    static double ap_mean[55];
+    static double bp_mean[55];
+    static double ap_amp[55];
+    static double bp_amp[55];
+    static double at_mean[55];
+    static double bt_mean[55];
+    static double at_amp[55];
+    static double bt_amp[55];
 
-    private:
-    };
-}
+  private:
+};
+} // namespace gnut
 
 #endif

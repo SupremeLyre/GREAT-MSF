@@ -19,10 +19,10 @@
 #ifndef CONST_H
 #define CONST_H
 
+#include "gexport/ExportLibGnut.h"
 #include <map>
 #include <string>
 #include <vector>
-#include "gexport/ExportLibGnut.h"
 
 using namespace std;
 
@@ -39,19 +39,19 @@ namespace gnut
 #define SQRT(x) ((x) <= 0.0 ? 0.0 : sqrt(x))
 
 #define SGN(x) ((x) <= 0.0 ? -1.0 : 1.0)
-#define SWAP_I(x, y) \
-    do               \
-    {                \
-        int _z = x;  \
-        x = y;       \
-        y = _z;      \
+#define SWAP_I(x, y)                                                                                                   \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        int _z = x;                                                                                                    \
+        x = y;                                                                                                         \
+        y = _z;                                                                                                        \
     } while (0)
-#define SWAP_D(x, y)   \
-    do                 \
-    {                  \
-        double _z = x; \
-        x = y;         \
-        y = _z;        \
+#define SWAP_D(x, y)                                                                                                   \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        double _z = x;                                                                                                 \
+        x = y;                                                                                                         \
+        y = _z;                                                                                                        \
     } while (0)
 #define ROUND(x) ((int)floor((x) + 0.5))
 #define ROUND_U(x) ((unsigned int)floor((x) + 0.5))
@@ -150,7 +150,7 @@ namespace gnut
 #define P2_55 2.775557561562891E-17 /* 2^-55 */
 #define P2_59 1.734723475976810E-18 /* 2^-59 */
 
-    // GPS
+// GPS
 #define A_WGS 6378137.000         ///< [m] WGS84 semi-major axis
 #define B_WGS 6356752.300         ///< [m] WGS84 semi-minor axis
 #define E_WGS 0.081819            ///< [-] WGS84 eccentricity
@@ -191,7 +191,7 @@ namespace gnut
 #define TC2TK 273.15        ///< conversion from deg of Celsius to Kelvins
 #define TPOINT 273.16       ///< temperature of triple point [K], i.e. 0.01 Deg C
 
-    typedef map<string, vector<double>> t_map_refr; ///< refractivity coefficients
+typedef map<string, vector<double>> t_map_refr; ///< refractivity coefficients
 
 #define K1_ESS 77.64   ///< [K/hPa]   Essen and Froome (1951)
 #define K2_ESS 64.68   ///< [K/hPa]   Essen and Froome (1951)
@@ -250,6 +250,6 @@ namespace gnut
 #define MOON_R 1738.090 ///< radius of Moon(unit: km)
 #endif                  // !MOON_R
 
-} // namespace
+} // namespace gnut
 
 #endif

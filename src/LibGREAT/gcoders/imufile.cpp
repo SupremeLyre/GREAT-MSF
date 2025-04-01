@@ -77,7 +77,8 @@ int great::t_imufile::decode_data(char *buff, int sz, int &cnt, vector<string> &
             ss >> t >> gx >> gy >> gz >> ax >> ay >> az;
             g_tmp = Vector3d(gx, gy, gz);
             a_tmp = Vector3d(ax, ay, az);
-            // cout << "fucking data: " << t << " " << gx << " " << gy << " " << gz << " " << ax << " " << ay << " " << az << "\n";
+            // cout << "fucking data: " << t << " " << gx << " " << gy << " " << gz << " " << ax << " " << ay << " " <<
+            // az << "\n";
         }
         else if (_order[0] == 'a' && _order[1] == 'g') // a->g
         {

@@ -76,7 +76,7 @@ string great::meas2str(MEAS_TYPE type)
     return res;
 }
 
-IGN_TYPE great::str2ign(const string& s)
+IGN_TYPE great::str2ign(const string &s)
 {
     string tmp = s;
     transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
@@ -119,10 +119,10 @@ IGN_TYPE great::str2ign(const string& s)
     return PURE_INS;
 }
 
-IMU_TYPE great::str2imu(const string& s)
+IMU_TYPE great::str2imu(const string &s)
 {
     string tmp = s;
-    //transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
+    // transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
     if (tmp == "SPAN FSAS")
         return IMU_TYPE::NovAtel_SPAN_FSAS;
     if (tmp == "SPAN CPT")
@@ -207,12 +207,14 @@ void great::t_gsetign::check()
 {
     _gmutex.lock();
 
-    _imu_type = str2imu(_doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("IMUErrorModel").attribute("Type").value());
+    _imu_type = str2imu(
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("IMUErrorModel").attribute("Type").value());
     _map_imu_error_models = IMUErrorModels();
 
     xml_node node = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN);
 
-    string str = to_string(_initial_misalignment_std(0)) + ' ' + to_string(_initial_misalignment_std(1)) + ' ' + to_string(_initial_misalignment_std(2));
+    string str = to_string(_initial_misalignment_std(0)) + ' ' + to_string(_initial_misalignment_std(1)) + ' ' +
+                 to_string(_initial_misalignment_std(2));
     _default_attr(node, "initial_misalignment_std", str);
 
     str.clear();
@@ -289,12 +291,11 @@ void great::t_gsetign::help()
     _gmutex.unlock();
 }
 
-
 Eigen::Vector3d great::t_gsetign::initial_misalignment_std()
 {
 
     _gmutex.lock();
-    //string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("initial_misalignment_std").value();
+    // string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("initial_misalignment_std").value();
     xml_node AttNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("Attitude");
     string str = AttNode.attribute("InitialSTD").value();
     for (int i = 0; i < str.size(); i++)
@@ -316,7 +317,7 @@ Eigen::Vector3d great::t_gsetign::initial_vel_std()
 {
 
     _gmutex.lock();
-    //string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("initial_vel_std").value();    
+    // string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("initial_vel_std").value();
     xml_node VelNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("Velocity");
     string str = VelNode.attribute("InitialSTD").value();
     for (int i = 0; i < str.size(); i++)
@@ -336,7 +337,7 @@ Eigen::Vector3d great::t_gsetign::initial_vel_std()
 Eigen::Vector3d great::t_gsetign::initial_pos_std()
 {
     _gmutex.lock();
-    //string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("initial_pos_std").value();
+    // string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("initial_pos_std").value();
     xml_node PosNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("Position");
     string str = PosNode.attribute("InitialSTD").value();
     for (int i = 0; i < str.size(); i++)
@@ -356,7 +357,7 @@ Eigen::Vector3d great::t_gsetign::initial_pos_std()
 Eigen::Vector3d great::t_gsetign::initial_gyro_std()
 {
     _gmutex.lock();
-    //double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("initial_gyro_std").as_double();
+    // double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("initial_gyro_std").as_double();
     xml_node GyroNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("GyroBias");
     string str = GyroNode.attribute("InitialSTD").value();
     for (int i = 0; i < str.size(); i++)
@@ -393,7 +394,7 @@ Eigen::Vector3d great::t_gsetign::initial_gyro_scale_std()
 Eigen::Vector3d great::t_gsetign::initial_acce_std()
 {
     _gmutex.lock();
-    //double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("initial_acce_std").as_double();
+    // double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("initial_acce_std").as_double();
     xml_node AcceNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("AcceBias");
     string str = AcceNode.attribute("InitialSTD").value();
     for (int i = 0; i < str.size(); i++)
@@ -544,7 +545,7 @@ double great::t_gsetign::min_odo_std()
 Eigen::Vector3d great::t_gsetign::misalignment_psd()
 {
     _gmutex.lock();
-    //double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("misalignment_psd").as_double();
+    // double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("misalignment_psd").as_double();
     xml_node AttNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("Attitude");
     string str = AttNode.attribute("ProcNoiseSD").value();
     for (int i = 0; i < str.size(); i++)
@@ -565,7 +566,7 @@ Eigen::Vector3d great::t_gsetign::misalignment_psd()
 Eigen::Vector3d great::t_gsetign::vel_psd()
 {
     _gmutex.lock();
-    //double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("vel_psd").as_double();
+    // double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("vel_psd").as_double();
     xml_node VelNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("Velocity");
     string str = VelNode.attribute("ProcNoiseSD").value();
     for (int i = 0; i < str.size(); i++)
@@ -585,7 +586,7 @@ Eigen::Vector3d great::t_gsetign::vel_psd()
 Eigen::Vector3d great::t_gsetign::pos_psd()
 {
     _gmutex.lock();
-    //double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("pos_psd").as_double();
+    // double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("pos_psd").as_double();
     xml_node PosNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("Position");
     string str = PosNode.attribute("ProcNoiseSD").value();
     for (int i = 0; i < str.size(); i++)
@@ -605,7 +606,7 @@ Eigen::Vector3d great::t_gsetign::pos_psd()
 Eigen::Vector3d great::t_gsetign::gyro_psd()
 {
     _gmutex.lock();
-    //double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("gyro_psd").as_double();
+    // double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("gyro_psd").as_double();
     xml_node GyroNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("GyroBias");
     string str = GyroNode.attribute("ProcNoiseSD").value();
     for (int i = 0; i < str.size(); i++)
@@ -625,7 +626,7 @@ Eigen::Vector3d great::t_gsetign::gyro_psd()
 Eigen::Vector3d great::t_gsetign::acce_psd()
 {
     _gmutex.lock();
-    //double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("acce_psd").as_double();
+    // double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("acce_psd").as_double();
     xml_node AcceNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Estimator").child("AcceBias");
     string str = AcceNode.attribute("ProcNoiseSD").value();
     for (int i = 0; i < str.size(); i++)
@@ -779,7 +780,8 @@ Eigen::Vector3d great::t_gsetign::ATT_std()
     string x = AttNode.child("NoiseSD").attribute("Value").value();
     for (int i = 0; i < x.size(); i++)
     {
-        if (x[i] == ',')x[i] = ' ';
+        if (x[i] == ',')
+            x[i] = ' ';
     }
     stringstream ss(x);
     double p, r, y;
@@ -807,7 +809,8 @@ int great::t_gsetign::nr()
 double great::t_gsetign::delay_odo()
 {
     _gmutex.lock();
-    double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Odometer").child("DelayTime").attribute("Value").as_double();
+    double x =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Odometer").child("DelayTime").attribute("Value").as_double();
     _gmutex.unlock();
     return x;
 }
@@ -888,7 +891,8 @@ Eigen::Vector3d great::t_gsetign::lever()
 double great::t_gsetign::delay_t()
 {
     _gmutex.lock();
-    double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("GNSS").child("DelayTime").attribute("Value").as_double();
+    double x =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("GNSS").child("DelayTime").attribute("Value").as_double();
     _gmutex.unlock();
     return x;
 }
@@ -896,7 +900,8 @@ double great::t_gsetign::delay_t()
 double great::t_gsetign::max_pdop()
 {
     _gmutex.lock();
-    double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("GNSS").child("LCISetting").attribute("MaxPDOP").as_double();
+    double x =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("GNSS").child("LCISetting").attribute("MaxPDOP").as_double();
     _gmutex.unlock();
     return x;
 }
@@ -904,8 +909,9 @@ double great::t_gsetign::max_pdop()
 int great::t_gsetign::min_sat()
 {
     _gmutex.lock();
-    //int x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("min_satnum").as_int();
-    double x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("GNSS").child("LCISetting").attribute("MinSat").as_double();
+    // int x = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).attribute("min_satnum").as_int();
+    double x =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("GNSS").child("LCISetting").attribute("MinSat").as_double();
     _gmutex.unlock();
     return x;
 }
@@ -932,7 +938,8 @@ bool great::t_gsetign::NHC()
     _gmutex.lock();
     string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("NHC").attribute("Type").value();
     bool b = false;
-    if (str == "ON")b = true;
+    if (str == "ON")
+        b = true;
     _gmutex.unlock();
     return b;
 }
@@ -942,7 +949,8 @@ bool great::t_gsetign::ZUPT()
     _gmutex.lock();
     string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("ZUPT").attribute("Type").value();
     bool b = false;
-    if (str == "ON")b = true;
+    if (str == "ON")
+        b = true;
     _gmutex.unlock();
     return b;
 }
@@ -952,7 +960,8 @@ bool great::t_gsetign::Attitude()
     _gmutex.lock();
     string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Attitude").attribute("Type").value();
     bool b = false;
-    if (str == "ON")b = true;
+    if (str == "ON")
+        b = true;
     _gmutex.unlock();
     return b;
 }
@@ -962,7 +971,8 @@ bool great::t_gsetign::UWB()
     _gmutex.lock();
     string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("UltraWideBand").attribute("Type").value();
     bool b = false;
-    if (str == "ON")b = true;
+    if (str == "ON")
+        b = true;
     _gmutex.unlock();
     return b;
 }
@@ -972,7 +982,8 @@ bool great::t_gsetign::Hgt()
     _gmutex.lock();
     string str = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("Hgt").attribute("Type").value();
     bool b = false;
-    if (str == "ON")b = true;
+    if (str == "ON")
+        b = true;
     _gmutex.unlock();
     return b;
 }
@@ -983,7 +994,8 @@ bool great::t_gsetign::imu_scale()
     xml_node ExtraStatesNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("ExtraStates");
     string str = ExtraStatesNode.child("IMUScale").attribute("Type").value();
     bool b = false;
-    if (str == "ON")b = true;
+    if (str == "ON")
+        b = true;
     _gmutex.unlock();
     return b;
 }
@@ -994,7 +1006,8 @@ bool great::t_gsetign::imu_inst_rot()
     xml_node ExtraStatesNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("ExtraStates");
     string str = ExtraStatesNode.child("IMUInstallation").attribute("Type").value();
     bool b = false;
-    if (str == "Rotation" || str == "TransRot")b = true;
+    if (str == "Rotation" || str == "TransRot")
+        b = true;
     _gmutex.unlock();
     return b;
 }
@@ -1005,7 +1018,8 @@ bool great::t_gsetign::imu_inst_trans()
     xml_node ExtraStatesNode = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("ExtraStates");
     string str = ExtraStatesNode.child("IMUInstallation").attribute("Type").value();
     bool b = false;
-    if (str == "Translation" || str == "TransRot")b = true;
+    if (str == "Translation" || str == "TransRot")
+        b = true;
     _gmutex.unlock();
     return b;
 }
@@ -1022,7 +1036,8 @@ double great::t_gsetign::wheelraduis()
 double great::t_gsetign::UWB_start()
 {
     _gmutex.lock();
-    double res = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("UltraWideBand").child("Time").attribute("Start").as_double();
+    double res =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("UltraWideBand").child("Time").attribute("Start").as_double();
 
     _gmutex.unlock();
     return res;
@@ -1031,7 +1046,8 @@ double great::t_gsetign::UWB_start()
 double great::t_gsetign::UWB_end()
 {
     _gmutex.lock();
-    double res = _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("UltraWideBand").child("Time").attribute("End").as_double();
+    double res =
+        _doc.child(XMLKEY_ROOT).child(XMLKEY_IGN).child("UltraWideBand").child("Time").attribute("End").as_double();
 
     _gmutex.unlock();
     return res;
@@ -1135,7 +1151,6 @@ map<MEAS_TYPE, double> great::t_gsetign::max_norm()
                 continue;
             }
             map_norm.insert(make_pair(meas, norm));
-
         }
 
         ++itnode;

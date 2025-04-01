@@ -4,9 +4,9 @@
  * @brief        for the use of Lib Base.
  * @version      1.0
  * @date         2024-08-29
- * 
+ *
  * @copyright Copyright (c) 2024, Wuhan University. All rights reserved.
- * 
+ *
  */
 #ifndef EXPORT_LibGREAT_H
 #define EXPORT_LibGREAT_H
@@ -51,4 +51,4 @@ using namespace std;
 #endif // !SIZE_DBL
 
 #include "gio/grtlog.h"
-#endif //EXPORT_LibBase_H
+#endif // EXPORT_LibBase_H

@@ -29,9 +29,9 @@ using namespace std;
 
 namespace gnut
 {
-    /** @brief time synchronization. */
-    LibGnut_LIBRARY_EXPORT bool time_sync(const t_gtime &epo, double smp, double scl, t_spdlog spdlog);
-    LibGnut_LIBRARY_EXPORT bool time_sync(double dsec, double smp, double scl, t_spdlog spdlog); 
-} // namespace
+/** @brief time synchronization. */
+LibGnut_LIBRARY_EXPORT bool time_sync(const t_gtime &epo, double smp, double scl, t_spdlog spdlog);
+LibGnut_LIBRARY_EXPORT bool time_sync(double dsec, double smp, double scl, t_spdlog spdlog);
+} // namespace gnut
 
 #endif // # GSYNC_H

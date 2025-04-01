@@ -10,24 +10,24 @@
  */
 #include "gpublish.h"
 
-
 great::t_gpublish::t_gpublish()
 {
 }
 
 great::t_gpublish::~t_gpublish()
 {
-    if (viewer != nullptr) delete viewer;
+    if (viewer != nullptr)
+        delete viewer;
 }
 
 void great::t_gpublish::Initialize()
 {
-    
+
     viewer = new gviewer();
     viewer->Show();
 }
 
-void great::t_gpublish::UpdateNewState(const IMUState& imu_state)
+void great::t_gpublish::UpdateNewState(const IMUState &imu_state)
 {
     if (viewer != nullptr)
     {
@@ -51,26 +51,24 @@ void great::t_gpublish::UpdateNewState(const IMUState& imu_state)
         atti = imu_state.orientation.toRotationMatrix();
         frames.push_back(make_pair(atti, Position));
 
-        //att
+        // att
         viewer->SetFrames(frames);
-        //trajectory
+        // trajectory
         viewer->AddNewPos(Position);
     }
-
 }
 
-void great::t_gpublish::AddMapPoints(const vector<Eigen::Vector3d> & map_points)
+void great::t_gpublish::AddMapPoints(const vector<Eigen::Vector3d> &map_points)
 {
     vector<Eigen::Vector3d> map_points_e;
-    for (const auto& pt : map_points)
+    for (const auto &pt : map_points)
     {
-        map_points_e.push_back(R_e_n*pt);
+        map_points_e.push_back(R_e_n * pt);
     }
     viewer->AddNewPoint(map_points_e);
 }
 
-
-void great::t_gpublish::UpdateVisualPoints(const vector<Eigen::Vector3d> & map_points)
+void great::t_gpublish::UpdateVisualPoints(const vector<Eigen::Vector3d> &map_points)
 {
     if (viewer != nullptr)
     {
@@ -84,7 +82,9 @@ void great::t_gpublish::UpdateVisualPoints(const vector<Eigen::Vector3d> & map_p
     }
 }
 
-void great::t_gpublish::UpdatePlanePoints(const vector<Eigen::Vector3d> & pcs, const vector<vector<Eigen::Vector3d>> &_near_points, Eigen::Matrix3d R_l_e, Eigen::Vector3d t_l_e)
+void great::t_gpublish::UpdatePlanePoints(const vector<Eigen::Vector3d> &pcs,
+                                          const vector<vector<Eigen::Vector3d>> &_near_points, Eigen::Matrix3d R_l_e,
+                                          Eigen::Vector3d t_l_e)
 {
     if (viewer != nullptr)
     {
@@ -93,15 +93,14 @@ void great::t_gpublish::UpdatePlanePoints(const vector<Eigen::Vector3d> & pcs, c
         for (int i = 0; i < pcs.size(); i++)
         {
             vector<Eigen::Vector3d> one;
-            centers.push_back(R_e_n*(R_l_e*pcs.at(i) + t_l_e - _init_imupos));
+            centers.push_back(R_e_n * (R_l_e * pcs.at(i) + t_l_e - _init_imupos));
             for (int j = 0; j < _near_points.at(i).size(); j++)
             {
-                one.push_back(R_e_n * (R_l_e*_near_points.at(i).at(j) + t_l_e - _init_imupos));
+                one.push_back(R_e_n * (R_l_e * _near_points.at(i).at(j) + t_l_e - _init_imupos));
             }
             surroundings.push_back(one);
         }
-        
+
         viewer->SetPlaneCloud(centers, surroundings);
     }
-
 }

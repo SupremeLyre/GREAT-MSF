@@ -1,9 +1,6 @@
 #include "gcfg_ign.h"
 
-t_gcfg_ign::t_gcfg_ign() :
-    t_gcfg_ppp(),
-    t_gsetins(),
-    t_gsetign()
+t_gcfg_ign::t_gcfg_ign() : t_gcfg_ppp(), t_gsetins(), t_gsetign()
 {
     _IFMT_supported.insert(IFMT::IMU_INP);
 

@@ -20,92 +20,92 @@
 #define GCODER_BUFFER_H
 
 #include "gexport/ExportLibGnut.h"
-#include <string>
 #include <deque>
 #include <queue>
+#include <string>
 
 using namespace std;
 
 namespace great
 {
-    /**
-    *@brief Class for gcoder_buffer
-    */
-    class LibGnut_LIBRARY_EXPORT gcoder_buffer
-    {
-    public:
-        /** @brief default constructor. */
-        gcoder_buffer();
+/**
+ *@brief Class for gcoder_buffer
+ */
+class LibGnut_LIBRARY_EXPORT gcoder_buffer
+{
+  public:
+    /** @brief default constructor. */
+    gcoder_buffer();
 
-        /** @brief default destructor. */
-        ~gcoder_buffer();
+    /** @brief default destructor. */
+    ~gcoder_buffer();
 
-        /** @brief get size. */
-        int size();
+    /** @brief get size. */
+    int size();
 
-        /** @brief add. */
-        int add(char *buff, int size);
-
-        /**
-        * @brief get single line from the buffer.
-        * @param[in]  str        the content of the single line
-        * @param[in]  from_pos    the position in the buffer
-        * @return      int
-        */
-        int getline(string &str, int from_pos);
-
-        /** @brief tostring. */
-        void toString(string &str);
-
-    private:
-        deque<char> _buffer; ///< buffer
-    };
+    /** @brief add. */
+    int add(char *buff, int size);
 
     /**
-    *@brief Class for gcoder_char_buffer
-    */
-    class LibGnut_LIBRARY_EXPORT gcoder_char_buffer
-    {
-    public:
-        /** @brief default constructor. */
-        gcoder_char_buffer();
+     * @brief get single line from the buffer.
+     * @param[in]  str        the content of the single line
+     * @param[in]  from_pos    the position in the buffer
+     * @return      int
+     */
+    int getline(string &str, int from_pos);
 
-        /** @brief default destructor. */
-        ~gcoder_char_buffer();
+    /** @brief tostring. */
+    void toString(string &str);
 
-        /** @brief get size. */
-        int size();
+  private:
+    deque<char> _buffer; ///< buffer
+};
 
-        /** @brief add. */
-        int add(char *buff, int size);
+/**
+ *@brief Class for gcoder_char_buffer
+ */
+class LibGnut_LIBRARY_EXPORT gcoder_char_buffer
+{
+  public:
+    /** @brief default constructor. */
+    gcoder_char_buffer();
 
-        /**
-        * @brief get single line from the buffer.
-        * @param[in]  str        the content of the single line
-        * @param[in]  from_pos    the position in the buffer
-        * @return      int
-        */
-        int getline(string &str, int from_pos);
+    /** @brief default destructor. */
+    ~gcoder_char_buffer();
 
-        /**
-        * @brief get the buffer.
-        * @param[in]  buff        buffer
-        * @return      int
-        */
-        int getbuffer(const char *&buff);
+    /** @brief get size. */
+    int size();
 
-        /** @brief remove from buffer. */
-        int consume(int bytes_to_eat);
+    /** @brief add. */
+    int add(char *buff, int size);
 
-        /** @brief to string. */
-        void toString(string &str);
+    /**
+     * @brief get single line from the buffer.
+     * @param[in]  str        the content of the single line
+     * @param[in]  from_pos    the position in the buffer
+     * @return      int
+     */
+    int getline(string &str, int from_pos);
 
-    private:
-        int _begpos;   ///< begin position in the buffer
-        int _endpos;   ///< end position in the buffer
-        int _buffsz;   ///< buffer size
-        char *_buffer; ///< buffer
-    };
-}
+    /**
+     * @brief get the buffer.
+     * @param[in]  buff        buffer
+     * @return      int
+     */
+    int getbuffer(const char *&buff);
+
+    /** @brief remove from buffer. */
+    int consume(int bytes_to_eat);
+
+    /** @brief to string. */
+    void toString(string &str);
+
+  private:
+    int _begpos;   ///< begin position in the buffer
+    int _endpos;   ///< end position in the buffer
+    int _buffsz;   ///< buffer size
+    char *_buffer; ///< buffer
+};
+} // namespace great
 
 #endif

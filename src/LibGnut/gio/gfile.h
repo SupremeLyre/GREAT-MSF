@@ -19,8 +19,8 @@
 #ifndef GFILE_H
 #define GFILE_H
 
-#include <stdio.h>
 #include <fstream>
+#include <stdio.h>
 #include <string>
 
 #include "gio/gio.h"
@@ -36,79 +36,78 @@ using namespace std;
 namespace gnut
 {
 
-    /** @brief class for t_gfile derive from t_gio. */
-    class LibGnut_LIBRARY_EXPORT t_gfile : public t_gio
-    {
+/** @brief class for t_gfile derive from t_gio. */
+class LibGnut_LIBRARY_EXPORT t_gfile : public t_gio
+{
 
-    public:
-        /** @brief default constructor. */
-        t_gfile(t_spdlog spdlog);
+  public:
+    /** @brief default constructor. */
+    t_gfile(t_spdlog spdlog);
 
-        /** @brief default destructor. */
-        virtual ~t_gfile();
+    /** @brief default destructor. */
+    virtual ~t_gfile();
 
-        /** @brief init write/read. */
-        virtual int init_read();
+    /** @brief init write/read. */
+    virtual int init_read();
 
-        /** @brief integrate gzip/ascii. */
-        virtual bool eof();
+    /** @brief integrate gzip/ascii. */
+    virtual bool eof();
 
-        /** @brief integrate gzip/ascii. */
-        virtual string mask();
+    /** @brief integrate gzip/ascii. */
+    virtual string mask();
 
-        /**
-        * @brief set file://dir/name. 
-        * @param[in]    str        file path 
-        * @return 
-        *    @retval =-1 false
-        *    @retval =1    true
-        */
-        virtual int path(string str);
-        virtual string path();
-        virtual string name();
+    /**
+     * @brief set file://dir/name.
+     * @param[in]    str        file path
+     * @return
+     *    @retval =-1 false
+     *    @retval =1    true
+     */
+    virtual int path(string str);
+    virtual string path();
+    virtual string name();
 
-        /** @brief reset path. */
-        virtual void reset();
+    /** @brief reset path. */
+    virtual void reset();
 
-    protected:
+  protected:
+    /** @brief read data.
+    * @param[in]    buff    buffer of the data
+    * @param[in]    size    buffer size of the data
+    * @return
+        @retval >0    number of bytes read
+        @retval <=0    fail
+    */
+    virtual int _gio_read(char *buff, int size);
 
-        /** @brief read data.
-        * @param[in]    buff    buffer of the data
-        * @param[in]    size    buffer size of the data
-        * @return 
-            @retval >0    number of bytes read 
-            @retval <=0    fail
-        */
-        virtual int _gio_read(char *buff, int size);
+    /**
+     * @brief common function for file close.
+     * @return        running status
+     */
+    virtual int _stop_common();
 
-        /**
-        * @brief common function for file close. 
-        * @return        running status 
-        */
-        virtual int _stop_common(); 
+    /**
+     * @brief compressed or not ?
+     * @param[in]    name    file name
+     */
+    virtual void _set_gzip(string name);
 
-        /**
-        * @brief compressed or not ? 
-        * @param[in]    name    file name
-        */
-        virtual void _set_gzip(string name);  
+    /**
+    * @brief read.
+    * @param[in]    b    buffer of the data
+    * @param[in]    s    buffer size of the data
+    * @return
+        @retval <0    fail
+    */
+    virtual int _read(char *b, int s);
 
-        /**
-        * @brief read. 
-        * @param[in]    b    buffer of the data
-        * @param[in]    s    buffer size of the data
-        * @return
-            @retval <0    fail
-        */
-        virtual int _read(char *b, int s); 
+    int _irc;      ///< irc
+    bool _gzip;    ///< compressed
+    t_giof *_file; ///< ascii file
 
-        int _irc;        ///< irc
-        bool _gzip;      ///< compressed
-        t_giof *_file;   ///< ascii file
+  private:
+};
 
-    private:
-    };
-
-} // namespace
+} // namespace gnut
 
 #endif

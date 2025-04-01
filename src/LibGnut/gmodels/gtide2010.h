@@ -30,36 +30,37 @@
 #include <boost/thread/mutex.hpp>
 #endif
 
-#include "gutils/gconst.h"
-#include "gutils/gtime.h"
-#include "gutils/gtriple.h"
 #include "gmodels/gephplan.h"
 #include "gmodels/ggpt.h"
 #include "gmodels/gtide.h"
+#include "gutils/gconst.h"
+#include "gutils/gtime.h"
+#include "gutils/gtriple.h"
 
 using namespace std;
 
 namespace gnut
 {
 
-    /** @brief class for t_gtide2010 derive from t_gtide. */
-    class LibGnut_LIBRARY_EXPORT t_gtide2010 : public t_gtide
-    {
+/** @brief class for t_gtide2010 derive from t_gtide. */
+class LibGnut_LIBRARY_EXPORT t_gtide2010 : public t_gtide
+{
 
-    public:
-        /** @brief constructor 1. */
-        t_gtide2010(t_spdlog spdlog);
+  public:
+    /** @brief constructor 1. */
+    t_gtide2010(t_spdlog spdlog);
 
-        /** @brief default destructor. */
-        virtual ~t_gtide2010();
+    /** @brief default destructor. */
+    virtual ~t_gtide2010();
 
-        /** @brief ocean tide loading. */
-        virtual t_gtriple load_ocean(const t_gtime &epoch, const string &site, const t_gtriple &xRec); 
-    protected:
-        ColumnVector _D;   ///< D
-        ColumnVector _DD;  ///< DD
-    };
+    /** @brief ocean tide loading. */
+    virtual t_gtriple load_ocean(const t_gtime &epoch, const string &site, const t_gtriple &xRec);
 
-} // namespace
+  protected:
+    ColumnVector _D;  ///< D
+    ColumnVector _DD; ///< DD
+};
+
+} // namespace gnut
 
 #endif

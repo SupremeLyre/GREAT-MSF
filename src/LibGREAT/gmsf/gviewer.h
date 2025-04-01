@@ -14,12 +14,12 @@
 
 #include <Eigen/Core>
 #include <GLFW/glfw3.h>
-#include <vector>
-#include <utility>
-#include <thread>
-#include <mutex>
-#include <math.h>
 #include <map>
+#include <math.h>
+#include <mutex>
+#include <thread>
+#include <utility>
+#include <vector>
 #ifdef _WIN32
 #include <Windows.h>
 #else
@@ -34,41 +34,43 @@ typedef vector<Eigen::Vector3d> Trajectory;
 
 namespace great
 {
-    class LibGREAT_LIBRARY_EXPORT gviewer
-    {
-    public:
-        gviewer();
-        ~gviewer();
-    public:
-        void Show();
-        void ClearView();
-        void SetFrames(const Frames &t);
-        void SetFrames(const vector<Frames> &vt);
-        void AddNewFrame(const pair<Eigen::Matrix3d, Eigen::Vector3d> &f);
+class LibGREAT_LIBRARY_EXPORT gviewer
+{
+  public:
+    gviewer();
+    ~gviewer();
 
-        void SetPointCloud(const VPointCloud &pc);
-        void SetPointCloud(const vector<VPointCloud> &vpc);
-        void SetPlaneCloud(const vector<Eigen::Vector3d> &_pcs, const vector<vector<Eigen::Vector3d>> & _near_points);
-        void AddNewPoint(const Eigen::Vector3d &p);
-        void AddNewPoint(const vector<Eigen::Vector3d> &p);
+  public:
+    void Show();
+    void ClearView();
+    void SetFrames(const Frames &t);
+    void SetFrames(const vector<Frames> &vt);
+    void AddNewFrame(const pair<Eigen::Matrix3d, Eigen::Vector3d> &f);
 
-        void SetTrajectory(const Trajectory &t);
-        void SetTrajectory(const vector<Trajectory> &vt);
-        void AddNewPos(const Eigen::Vector3d &p);
-        void Hide();
-    private:
-        void Run();
+    void SetPointCloud(const VPointCloud &pc);
+    void SetPointCloud(const vector<VPointCloud> &vpc);
+    void SetPlaneCloud(const vector<Eigen::Vector3d> &_pcs, const vector<vector<Eigen::Vector3d>> &_near_points);
+    void AddNewPoint(const Eigen::Vector3d &p);
+    void AddNewPoint(const vector<Eigen::Vector3d> &p);
 
-    private:
-        static vector<gviewer*> vptr;
-        GLFWwindow* window;
-        thread *t;
-        mutex m_mutex;
-        vector<Trajectory> mv_trajectory;
-        vector<VPointCloud> mv_pointCloud;
-        vector<Eigen::Vector3d> pcs;
-        vector<vector<Eigen::Vector3d>> near_points;
-        vector<Frames> mv_frames;
-    };
-}
+    void SetTrajectory(const Trajectory &t);
+    void SetTrajectory(const vector<Trajectory> &vt);
+    void AddNewPos(const Eigen::Vector3d &p);
+    void Hide();
+
+  private:
+    void Run();
+
+  private:
+    static vector<gviewer *> vptr;
+    GLFWwindow *window;
+    thread *t;
+    mutex m_mutex;
+    vector<Trajectory> mv_trajectory;
+    vector<VPointCloud> mv_pointCloud;
+    vector<Eigen::Vector3d> pcs;
+    vector<vector<Eigen::Vector3d>> near_points;
+    vector<Frames> mv_frames;
+};
+} // namespace great
 #endif

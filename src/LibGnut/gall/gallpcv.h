@@ -18,68 +18,66 @@
 #ifndef GALLPCV_H
 #define GALLPCV_H
 
+#include "gdata/gdata.h"
+#include "gmodels/gpcv.h"
+#include "gutils/gconst.h"
+#include "gutils/gsys.h"
+#include "gutils/gtime.h"
 #include <iostream>
 #include <string.h>
-#include "gdata/gdata.h"
-#include "gutils/gsys.h"
-#include "gutils/gconst.h"
-#include "gutils/gtime.h"
-#include "gmodels/gpcv.h"
 
 using namespace std;
 
 namespace gnut
 {
 
+/**
+ *@brief Class for t_gallpcv derive from t_gdata
+ */
+class LibGnut_LIBRARY_EXPORT t_gallpcv : public t_gdata
+{
+
+  public:
+    /** @brief default constructor. */
+    t_gallpcv();
+
     /**
-    *@brief Class for t_gallpcv derive from t_gdata
-    */
-    class LibGnut_LIBRARY_EXPORT t_gallpcv : public t_gdata
-    {
+     * @brief Construct a new t gallpcv object
+     *
+     * @param spdlog
+     */
+    t_gallpcv(t_spdlog spdlog);
 
-    public:
-        /** @brief default constructor. */
-        t_gallpcv();
+    /** @brief default destructor. */
+    virtual ~t_gallpcv();
 
-        /**
-         * @brief Construct a new t gallpcv object
-         * 
-         * @param spdlog 
-         */
-        t_gallpcv(t_spdlog spdlog);
+    typedef map<t_gtime, shared_ptr<t_gpcv>> t_map_epo; ///< map of 1-ant/1-sn/N-epochs
+    typedef map<string, t_map_epo> t_map_num;           ///< map of 1-ant/N-sn/N-epochs
+    typedef map<string, t_map_num> t_map_pcv;           ///< map of N-ant/N-sn/N-epochs
 
-        /** @brief default destructor. */
-        virtual ~t_gallpcv();
+    /**
+     *@brief add single antenn pattern (PCV)
+     */
+    int addpcv(shared_ptr<t_gpcv> pcv);
 
-        typedef map<t_gtime, shared_ptr<t_gpcv>> t_map_epo; ///< map of 1-ant/1-sn/N-epochs
-        typedef map<string, t_map_epo> t_map_num;           ///< map of 1-ant/N-sn/N-epochs
-        typedef map<string, t_map_num> t_map_pcv;           ///< map of N-ant/N-sn/N-epochs
+    /**
+     *@brief get single antenn pattern (PCV)
+     */
+    shared_ptr<t_gpcv> gpcv(const string &ant, const string &num, const t_gtime &t);
 
-        /**
-        *@brief add single antenn pattern (PCV)
-        */
-        int addpcv(shared_ptr<t_gpcv> pcv);
+  protected:
+    /**
+     *@brief find appropriate t_gpcv element
+     */
+    virtual shared_ptr<t_gpcv> _find(const string &ant, const string &ser, const t_gtime &t);
 
-        /**
-        *@brief get single antenn pattern (PCV)
-        */
-        shared_ptr<t_gpcv> gpcv(const string &ant, const string &num,
-                                const t_gtime &t);
+  private:
+    t_map_pcv _mappcv; ///< complete PCV-map
+    bool _overwrite;   ///< rewrite/add only mode
 
-    protected:
-        /**
-        *@brief find appropriate t_gpcv element
-        */
-        virtual shared_ptr<t_gpcv>
-        _find(const string &ant, const string &ser, const t_gtime &t);
+    shared_ptr<t_gpcv> _pcvnull; ///< pcvnull
+};
 
-    private:
-        t_map_pcv _mappcv; ///< complete PCV-map
-        bool _overwrite;   ///< rewrite/add only mode
-
-        shared_ptr<t_gpcv> _pcvnull; ///< pcvnull
-    };
-
-} // namespace
+} // namespace gnut
 
 #endif

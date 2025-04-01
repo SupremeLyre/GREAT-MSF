@@ -23,45 +23,45 @@
 #include "gexport/ExportLibGnut.h"
 #include <vector>
 
+#include "gmodels/geop80.h"
 #include "gutils/gconst.h"
 #include "gutils/gtime.h"
 #include "gutils/gtriple.h"
-#include "gmodels/geop80.h"
 
 using namespace std;
 
 namespace gnut
 {
 
-    /** @brief class for t_gephplan. */
-    class LibGnut_LIBRARY_EXPORT t_gephplan
-    {
+/** @brief class for t_gephplan. */
+class LibGnut_LIBRARY_EXPORT t_gephplan
+{
 
-    public:
-        /** @brief default constructor. */
-        t_gephplan();
+  public:
+    /** @brief default constructor. */
+    t_gephplan();
 
-        /** @brief default destructor. */
-        virtual ~t_gephplan();
+    /** @brief default destructor. */
+    virtual ~t_gephplan();
 
-        /** @brief Sun position. */
-        t_gtriple sunPos(double mjd, bool itrf = true);
+    /** @brief Sun position. */
+    t_gtriple sunPos(double mjd, bool itrf = true);
 
-        /** @brief Moon position. */
-        t_gtriple moonPos(double mjd);
+    /** @brief Moon position. */
+    t_gtriple moonPos(double mjd);
 
-        /** @brief Greenwich Mean Sidereal Time. */
-        double gmst(double mjd);
+    /** @brief Greenwich Mean Sidereal Time. */
+    double gmst(double mjd);
 
-    protected:
-        /** @brief Frac part of double. */
-        double _frac(double x);
+  protected:
+    /** @brief Frac part of double. */
+    double _frac(double x);
 
-        t_geop80 _eop; ///< eop
+    t_geop80 _eop; ///< eop
 
-    private:
-        map<double, t_gtriple> _record_itrf_sunpos;
-    };
-}
+  private:
+    map<double, t_gtriple> _record_itrf_sunpos;
+};
+} // namespace gnut
 
 #endif

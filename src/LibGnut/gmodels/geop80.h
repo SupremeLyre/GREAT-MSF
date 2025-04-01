@@ -28,37 +28,37 @@
 #define GEOP80_H
 
 #include "gdata/gdata.h"
+#include "gmodels/geop.h"
 #include "gutils/gconst.h"
 #include "gutils/gtime.h"
 #include "gutils/gtriple.h"
-#include "gmodels/geop.h"
 
 using namespace std;
 
 namespace gnut
 {
 
-    /** @brief class for t_geop80 based on t_geop. */
-    class LibGnut_LIBRARY_EXPORT t_geop80 : public t_geop
-    {
+/** @brief class for t_geop80 based on t_geop. */
+class LibGnut_LIBRARY_EXPORT t_geop80 : public t_geop
+{
 
-    public:
-        /** @brief default constructor. */
-        t_geop80();
+  public:
+    /** @brief default constructor. */
+    t_geop80();
 
-        /** @brief default destructor. */
-        virtual ~t_geop80();
+    /** @brief default destructor. */
+    virtual ~t_geop80();
 
-        /** @brief Nutation Matrix. */
-        Matrix nutMatrix(double mjd);
+    /** @brief Nutation Matrix. */
+    Matrix nutMatrix(double mjd);
 
-        /** @brief Precession Matrix. */
-        Matrix precMatrix(double mjd_1);
+    /** @brief Precession Matrix. */
+    Matrix precMatrix(double mjd_1);
 
-    protected:
-        /** @brief Frac part of double. */
-        double _frac(double x);
-    };
-}
+  protected:
+    /** @brief Frac part of double. */
+    double _frac(double x);
+};
+} // namespace gnut
 
 #endif

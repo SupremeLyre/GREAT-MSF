@@ -12,38 +12,29 @@
 #ifndef GCFG_IGN_H
 #define GCFG_IGN_H
 
-
-#include "gdata/gimudata.h"
-#include "gdata/gifcb.h"
 #include "gcoders/ifcb.h"
 #include "gcoders/imufile.h"
-#include "gset/gsetins.h"
-#include "gset/gsetign.h"
-#include "gset/gcfg_ppp.h"
+#include "gdata/gifcb.h"
+#include "gdata/gimudata.h"
 #include "gmsf/gintegration.h"
-
+#include "gset/gcfg_ppp.h"
+#include "gset/gsetign.h"
+#include "gset/gsetins.h"
 
 using namespace std;
 using namespace gnut;
 using namespace great;
 
-class t_gcfg_ign : public virtual t_gcfg_ppp,
-                   public virtual t_gsetins,
-                   public virtual t_gsetign
+class t_gcfg_ign : public virtual t_gcfg_ppp, public virtual t_gsetins, public virtual t_gsetign
 {
-    public:
-        t_gcfg_ign();
-        ~t_gcfg_ign();
-        
-        void check();
-        void help();
+  public:
+    t_gcfg_ign();
+    ~t_gcfg_ign();
 
-    protected:
-        
+    void check();
+    void help();
+
+  protected:
 };
-
-
-
-
 
 #endif

@@ -16,7 +16,8 @@
 // spdlog::info("Elapsed: {:.6} seconds", sw);  =>  "Elapsed 0.005163 seconds"
 //
 //
-// If other units are needed (e.g. millis instead of double), include "fmt/chrono.h" and use "duration_cast<..>(sw.elapsed())":
+// If other units are needed (e.g. millis instead of double), include "fmt/chrono.h" and use
+// "duration_cast<..>(sw.elapsed())":
 //
 // #include <spdlog/fmt/chrono.h>
 //..
@@ -24,16 +25,17 @@
 // using std::chrono::milliseconds;
 // spdlog::info("Elapsed {}", duration_cast<milliseconds>(sw.elapsed())); => "Elapsed 5ms"
 
-namespace spdlog {
+namespace spdlog
+{
 class stopwatch
 {
     using clock = std::chrono::steady_clock;
     std::chrono::time_point<clock> start_tp_;
 
-public:
-    stopwatch()
-        : start_tp_{clock::now()}
-    {}
+  public:
+    stopwatch() : start_tp_{clock::now()}
+    {
+    }
 
     std::chrono::duration<double> elapsed() const
     {
@@ -48,11 +50,11 @@ public:
 } // namespace spdlog
 
 // Support for fmt formatting  (e.g. "{:012.9}" or just "{}")
-namespace fmt {
-template<>
-struct formatter<spdlog::stopwatch> : formatter<double>
+namespace fmt
 {
-    template<typename FormatContext>
+template <> struct formatter<spdlog::stopwatch> : formatter<double>
+{
+    template <typename FormatContext>
     auto format(const spdlog::stopwatch &sw, FormatContext &ctx) -> decltype(ctx.out())
     {
         return formatter<double>::format(sw.elapsed().count(), ctx);

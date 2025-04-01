@@ -69,8 +69,8 @@
 #include <limits> // for VC++6
 #endif
 #ifdef WANT_STREAM
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #endif
 #ifdef WANT_MATH
 #include <cmath>
@@ -103,12 +103,12 @@
 //   }
 
 #ifdef WANT_STREAM
-#include <iostream.h>
 #include <iomanip.h>
+#include <iostream.h>
 #endif
 #ifdef WANT_MATH
-#include <math.h>
 #include <float.h>
+#include <math.h>
 #endif
 #ifdef WANT_STRING
 #include <string.h>
@@ -125,13 +125,13 @@
 #ifdef __ZTC__ // Zortech
 #include <stdlib.h>
 #ifdef WANT_STREAM
-#include <iostream.hpp>
 #include <iomanip.hpp>
+#include <iostream.hpp>
 #define flush "" // not defined in iomanip?
 #endif
 #ifdef WANT_MATH
-#include <math.h>
 #include <float.h>
+#include <math.h>
 #endif
 #ifdef WANT_STRING
 #include <string.h>
@@ -148,14 +148,14 @@
 #if defined __BCPLUSPLUS__ || defined __TURBOC__ // Borland or Turbo
 #include <stdlib.h>
 #ifdef WANT_STREAM
-#include <iostream.h>
 #include <iomanip.h>
+#include <iostream.h>
 #endif
 #ifdef WANT_MATH
-#include <math.h>
 #include <float.h> // Borland has both float and values
-                   // but values.h returns +INF for
-                   // MAXDOUBLE in BC5
+#include <math.h>
+// but values.h returns +INF for
+// MAXDOUBLE in BC5
 #endif
 #ifdef WANT_STRING
 #include <string.h>
@@ -172,12 +172,12 @@
 #ifdef __GNUG__ // Gnu C++
 #include <stdlib.h>
 #ifdef WANT_STREAM
-#include <iostream.h>
 #include <iomanip.h>
+#include <iostream.h>
 #endif
 #ifdef WANT_MATH
-#include <math.h>
 #include <float.h>
+#include <math.h>
 #endif
 #ifdef WANT_STRING
 #include <string.h>
@@ -194,12 +194,12 @@
 #ifdef __WATCOMC__ // Watcom C/C++
 #include <stdlib.h>
 #ifdef WANT_STREAM
-#include <iostream.h>
 #include <iomanip.h>
+#include <iostream.h>
 #endif
 #ifdef WANT_MATH
-#include <math.h>
 #include <float.h>
+#include <math.h>
 #endif
 #ifdef WANT_STRING
 #include <string.h>
@@ -216,8 +216,8 @@
 #ifdef macintosh // MPW C++ on the Mac
 #include <stdlib.h>
 #ifdef WANT_STREAM
-#include <iostream.h>
 #include <iomanip.h>
+#include <iostream.h>
 #endif
 #ifdef WANT_MATH
 #include <float.h>
@@ -238,8 +238,8 @@
 #ifdef use_float_h // use float.h for precision values
 #include <stdlib.h>
 #ifdef WANT_STREAM
-#include <iostream.h>
 #include <iomanip.h>
+#include <iostream.h>
 #endif
 #ifdef WANT_MATH
 #include <float.h>
@@ -261,8 +261,8 @@
 #define ATandT
 #include <stdlib.h>
 #ifdef WANT_STREAM
-#include <iostream.h>
 #include <iomanip.h>
+#include <iostream.h>
 #endif
 #ifdef WANT_MATH
 #include <math.h>
@@ -288,34 +288,48 @@ namespace RBD_COMMON
 #endif
 
 #ifdef USING_FLOAT // set precision type to float
-    typedef float Real;
-    typedef double long_Real;
+typedef float Real;
+typedef double long_Real;
 #endif
 
 #ifdef USING_DOUBLE // set precision type to double
-    typedef double Real;
-    typedef long double long_Real;
+typedef double Real;
+typedef long double long_Real;
 #endif
 
-    // This is for (very old) compilers that do not have bool automatically defined
+// This is for (very old) compilers that do not have bool automatically defined
 
 #ifndef bool_LIB
 #define bool_LIB 0
 
-    class bool
+class bool
+{
+    int value;
+
+  public:
+    bool(const int b)
     {
-        int value;
+        value = b ? 1 : 0;
+    }
+    bool(const void *b)
+    {
+        value = b ? 1 : 0;
+    }
+    bool()
+    {
+    }
+    operator int() const
+    {
+        return value;
+    }
+    int operator!() const
+    {
+        return !value;
+    }
+};
 
-    public:
-        bool(const int b) { value = b ? 1 : 0; }
-        bool(const void *b) { value = b ? 1 : 0; }
-        bool() {}
-        operator int() const { return value; }
-        int operator!() const { return !value; }
-    };
-
-    const bool true = 1;
-    const bool false = 0;
+const bool true = 1;
+const bool false = 0;
 
 #endif
 
@@ -329,7 +343,7 @@ namespace RBD_COMMON
 }
 namespace RBD_LIBRARIES // access all my libraries
 {
-    using namespace RBD_COMMON;
+using namespace RBD_COMMON;
 }
 #endif
 

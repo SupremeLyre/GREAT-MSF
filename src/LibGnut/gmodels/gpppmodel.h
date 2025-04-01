@@ -20,43 +20,41 @@
 #ifndef GPPPMODEL_H
 #define GPPPMODEL_H
 
-#include <string>
-#include <map>
 #include <cmath>
+#include <map>
+#include <string>
 
+#include "gall/gallobj.h"
+#include "gmodels/gephplan.h"
 #include "gmodels/gsppmodel.h"
 #include "gutils/gtypeconv.h"
-#include "gmodels/gephplan.h"
-#include "gall/gallobj.h"
 
 using namespace std;
 
 namespace gnut
 {
-    /** @brief class for t_gpppmodel derive from t_gsppmodel. */
-    class LibGnut_LIBRARY_EXPORT t_gpppmodel : public t_gsppmodel
-    {
-    public:
-        /** @brief constructor 1. */
-        t_gpppmodel(string site, t_spdlog spdlog, t_gsetbase *settings);
+/** @brief class for t_gpppmodel derive from t_gsppmodel. */
+class LibGnut_LIBRARY_EXPORT t_gpppmodel : public t_gsppmodel
+{
+  public:
+    /** @brief constructor 1. */
+    t_gpppmodel(string site, t_spdlog spdlog, t_gsetbase *settings);
 
-        /** @brief default constructor. */
-        t_gpppmodel();
+    /** @brief default constructor. */
+    t_gpppmodel();
 
-        /** @brief default destructor. */
-        virtual ~t_gpppmodel();
+    /** @brief default destructor. */
+    virtual ~t_gpppmodel();
 
-        /** @brief set object. */
-        virtual void setOBJ(t_gallobj *obj);
+    /** @brief set object. */
+    virtual void setOBJ(t_gallobj *obj);
 
-    protected:
+  protected:
+    t_gallobj *_gallobj;  ///< all obj
+    GRDMPFUNC _grad_mf;   ///< grad mf
+    ATTITUDES _attitudes; ///< attitudes
+};
 
-        t_gallobj *_gallobj;             ///< all obj
-        GRDMPFUNC _grad_mf;              ///< grad mf
-        ATTITUDES _attitudes;            ///< attitudes
-
-    };
-
-} // namespace
+} // namespace gnut
 
 #endif //  GPPPMODEL_H
