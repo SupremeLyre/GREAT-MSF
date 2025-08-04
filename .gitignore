@@ -7,3 +7,5 @@ MSF_*/
 log/
 finals2000A.data
 poleut1_*
+*.png
+__pycache__/

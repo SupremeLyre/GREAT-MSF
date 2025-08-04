@@ -99,7 +99,7 @@ int great::t_gintegration::processBatchFB(const t_gtime &beg, const t_gtime &end
     // ins time loop
     while (time_loop)
     {
-        cout << "gnss current epoch > gnss_end_epoch ? " << (_gnss_crt > _gnss_end) << endl;
+        // cout << "gnss current epoch > gnss_end_epoch ? " << (_gnss_crt > _gnss_end) << endl;
         if (_ins_crt > _ins_end || _gnss_crt > _gnss_end)
         {
             cerr << "\n"

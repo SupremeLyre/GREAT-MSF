@@ -1,5 +1,9 @@
 # GREAT-MSF: 武汉大学GREAT团队多传感器融合导航软件（Beta版）
 
+## 实验日志
+
+- doppler符号定义可能不同，`_addObsD`里面$l$矩阵改一下符号正负
+
 ## 概述
 
 &emsp;&emsp;GREAT (GNSS+ REsearch, Application and Teaching) 软件由武汉大学测绘学院设计开发，是一个用于空间大地测量数据处理、精密定位和定轨以及多源融合导航的综合性软件平台。<br />

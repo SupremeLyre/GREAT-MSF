@@ -336,7 +336,8 @@ int great::t_gpvtflt::_addObsD(t_gsatdata &satdata, unsigned int &iobs, t_gallpa
         }
         if (double_eq(modObsD, 0.0) || double_eq(Di, 0.0))
             continue;
-        l(iobs + i) = -Di - modObsD;
+        // l(iobs + i) = -Di - modObsD;
+        l(iobs + i) = Di - modObsD;
     }
 
     // Create weight matrix

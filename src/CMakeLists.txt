@@ -31,7 +31,7 @@ CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 
 # Compilation options settings
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    add_compile_options(-O3)
+    # add_compile_options(-O3)
 
     # add_compile_options(-w)
     add_compile_options(-m64)
