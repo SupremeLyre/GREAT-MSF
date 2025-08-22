@@ -177,8 +177,7 @@ int great::t_gintegration::processBatchFB(const t_gtime &beg, const t_gtime &end
                                                     _ins_crt.str_ymdhms(" integrated navigation processing epoch: "));
             }
 
-            if ((_ign_type == IGN_TYPE::LCI || (_ign_type == IGN_TYPE::TCI && !_amb_state)) &&
-                fabs(kftk - int(kftk)) < _shm.delay)
+            if ((_ign_type == IGN_TYPE::LCI || (_ign_type == IGN_TYPE::TCI && !_amb_state)))
             {
                 t_gintegration::_write();
             }
