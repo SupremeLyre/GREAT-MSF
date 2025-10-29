@@ -21,6 +21,7 @@
 #include "gimu.h"
 #include "gset/gsetign.h"
 #include "gdata/gimudata.h"
+#include "gdata/gododata.h"
 #include "gutils/gmutex.h"
 #include "gall/gallpar.h"
 #include "gio/gxml.h"
@@ -149,6 +150,13 @@ namespace great
         */
         virtual void Add_IMU(t_gimudata* imu);
 
+        /**
+        * @brief add ododata to integration navigation class
+        * @param[in]  odo            pointer if t_gododata class
+        * @return                    void
+        */
+        virtual void Add_ODO(t_gododata* odo);
+
         virtual void init_par(string site);
         virtual int get_last_idx();
         /**
@@ -181,6 +189,30 @@ namespace great
         * @brief set measurement matrix Hk
         */
         virtual void set_Hk();
+
+
+        /**
+        * @brief set measurement
+        *
+        * transmit Zero info for ZUPT
+        *
+        */
+        virtual bool set_meas_ZUPT(double t);
+
+        /**
+        * @brief set measurement
+        *
+        * transmit motion info for motion constraint
+        *
+        */
+        virtual bool set_meas_NHC(double t);
+
+        /* @brief set measurement
+        *
+        * transmit motion info for forward velocity
+        *
+        */
+        virtual bool set_meas_ODO(const double& vf, double t);
 
         /** @brief body motion state. */
         MOTION_TYPE motion_state();
@@ -235,6 +267,26 @@ namespace great
         virtual bool _valid_ins_constraint();
 
         /**
+        * @brief zero-velocity update in GNSS/INS obsevation update
+        * @return                    function running state (1 represents normal end, -1 represents abnormal)
+        */
+        virtual int _ZUPT_Update();
+
+        /**
+        * @brief non-holonomic constraints in GNSS/INS obsevation update
+        * @return                    function running state (1 represents normal end, -1 represents abnormal)
+        */
+        virtual int _NHC_Update();
+
+        /**
+        * @brief odometer constraints in GNSS/INS obsevation update
+        * @return                    function running state (1 represents normal end, -1 represents abnormal)
+        */
+
+        virtual int _ODO_Update();
+
+
+        /**
         * @brief time update of kalman filter
         * @param[in]  kfts            interval (for example 0.005 in 200Hz imu)
         * @param[in]  fback            whether feedback (0 represent no, 1 represent yes)
@@ -286,6 +338,9 @@ namespace great
         double _yaw0 = 0.0;
         bool _first_align;
         double _resample_intv;
+
+        double _odoscale;       //bool _use_odo;
+
         string _name = "";
         Eigen::Vector3d _first_pos, _pre_pos;
         Eigen::Vector3d wmm, vmm;     // total wm/vm increment (in alignment)
@@ -294,6 +349,7 @@ namespace great
         Eigen::VectorXd _v_post;                            /// post residual
 
         t_gimudata* _imudata;
+        t_gododata* _ododata;
         t_gtime _ins_crt;
         t_scheme _shm;                // processing scheme (important!)
         gnut::t_gsetbase* _setkf;    // set

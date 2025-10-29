@@ -54,6 +54,7 @@ namespace gnut
         SP3_INP,        ///< SP3 file
         UPD_INP,        ///< upd file
         IMU_INP,     ///< imu file for inertial navigation system (by zhshen)
+        ODO_INP,       ///< odo file (by zhshen)
         UNDEF = -1
     };
 

@@ -126,6 +126,9 @@ int great::t_gintegration::processBatchFB(const t_gtime& beg, const t_gtime& end
                 switch (*it)
                 {
                 case GNSS_MEAS:  irc = _GNSS_Update();  break;
+                case ZUPT_MEAS:  irc = _ZUPT_Update();   break;
+                case NHC_MEAS:   irc = _NHC_Update();    break;
+                case ODO_MEAS:   irc = _ODO_Update();    break;
                 default:break;
                 }
                 if (irc > 0) {
@@ -261,6 +264,8 @@ void great::t_gintegration::_write(string info)
     _prt_ins_kml();
     ostringstream os;
     sins.prt_sins(os);
+    if (_shm._odo)    
+        os << fixed << setprecision(4) << setw(12) << 1.0 + _odoscale;
     os << fixed << setprecision(0)
         << " " << setw(10) << meas            // meas
         << " " << setw(5) << nsat            // nsat
@@ -363,7 +368,7 @@ int great::t_gintegration::_init()
         if (_spdlog) SPDLOG_LOGGER_ERROR(_spdlog, string("gintegration:  ") +  "IMU observation is not existing!!! ");
         return -1;
     }
-    _ins_beg = _gnss_beg < _ins_beg ? _ins_beg : _gnss_beg;
+    //_ins_beg = _gnss_beg < _ins_beg ? _ins_beg : _gnss_beg;
     _ins_end = _gnss_end < _ins_end ? _gnss_end : _ins_end;
     _gnss_end = _ins_end;
 
@@ -613,11 +618,13 @@ int great::t_gintegration::_merge_pose(Matrix& A)
 int great::t_gintegration::_merge_init()
 {
     t_gtriple gnss_pos;
-    _param.getCrdParam(_site, gnss_pos);   
-    sins.eth.Update(Cart2Geod(Eigen::Vector3d(gnss_pos[0], gnss_pos[1], gnss_pos[2]), false), Eigen::Vector3d::Zero());
-    sins.Cnb = t_gbase::q2mat(sins.qnb);
-    sins.pos_ecef = Eigen::Vector3d(gnss_pos[0], gnss_pos[1], gnss_pos[2]) - sins.eth.Cen * sins.Cnb * lever;
-    sins.pos = Cart2Geod(sins.pos_ecef, false);
+    _param.getCrdParam(_site, gnss_pos);
+    if (_shm.align){
+        sins.eth.Update(Cart2Geod(Eigen::Vector3d(gnss_pos[0], gnss_pos[1], gnss_pos[2]), false), Eigen::Vector3d::Zero());
+        sins.Cnb = t_gbase::q2mat(sins.qnb);
+        sins.pos_ecef = Eigen::Vector3d(gnss_pos[0], gnss_pos[1], gnss_pos[2]) - sins.eth.Cen * sins.Cnb * lever;
+        sins.pos = Cart2Geod(sins.pos_ecef, false);
+    }
     int icrdx = _param[_param.getParam(_site, par_type::CRD_X, "")].index;
     Pk.block(icrdx - 1, icrdx - 1, 3, 3) = NewMat2Eigen(_Qx).block(icrdx - 1, icrdx - 1, 3, 3);
     for (int i = icrdx + 3; i <= _param.parNumber(); i++)
@@ -682,7 +689,7 @@ MEAS_TYPE great::t_gintegration::_getPOS(t_gposdata::data_pos& pos)
 
     if (pos.PDOP > _shm.max_pdop)res_type = NO_MEAS;
     if (pos.nSat < _shm.min_sat)res_type = NO_MEAS;
-    if (_isBase && !pos.amb_state)res_type = NO_MEAS;
+    if (_isBase && !pos.amb_state && !_shm._LCrtkFloatComb)res_type = NO_MEAS;
 
     return res_type;
 
@@ -697,6 +704,24 @@ int great::t_gintegration::_getMeas()
     {
         _Meas_Type.insert(MEAS_TYPE::GNSS_MEAS);
     }
+
+    double t = _ins_crt.sow() + _ins_crt.dsec();
+    MEAS_TYPE meas_type = meas_state();
+    if (double_eq(fabs(t - int(t)), 0.0)) {
+        if (_shm._NHC && meas_type == NHC_MEAS)
+            _Meas_Type.insert(NHC_MEAS);
+        if (_shm._ZUPT && meas_type == ZUPT_MEAS)
+            _Meas_Type.insert(MEAS_TYPE::ZUPT_MEAS);
+
+    }
+
+    if ((fabs(t - int(t)) < 0.06)) {
+        if (_shm._odo) {
+            if (_ododata->avaliable(_ins_crt, _shm.delay_odo))
+                _Meas_Type.insert(MEAS_TYPE::ODO_MEAS);
+        }
+    }
+
 
     if (_Meas_Type.size())
     {

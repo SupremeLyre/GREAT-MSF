@@ -11,6 +11,7 @@
 
 #include "gpublish.h"
 #include <iostream>
+#include <atomic>
 
 
 void MyPerspective(GLdouble fov, GLdouble aspectRatio, GLdouble zNear, GLdouble zFar);
@@ -70,7 +71,7 @@ double m_curr_Z0 = 0;
 
 bool is_pressL = false;
 bool is_pressR = false;
-bool mb_stop = false;
+std::atomic<bool> mb_stop{ false };
 
 great::gviewer::gviewer()
 {
@@ -89,6 +90,7 @@ great::gviewer::~gviewer()
 {
     gviewer::vptr.erase(std::find(gviewer::vptr.begin(), gviewer::vptr.end() - 1, this));
 
+    if (t) Hide();
 }
 
 
@@ -306,6 +308,11 @@ void great::gviewer::Run()
         glfwPollEvents();
     }
 
+    if (window) {
+        glfwDestroyWindow(window);
+        window = nullptr;
+    }
+
     glfwTerminate();
     //cout<<window->
     //delete window;
@@ -406,11 +413,17 @@ void great::gviewer::Hide()
 {
     if (!t) return;
 
-    mb_stop = true;
-    //Sleep(2000);
+    mb_stop.store(true);
+    if (window) {
+        glfwSetWindowShouldClose(window, 1);
+        glfwPostEmptyEvent();         
+    }
     t->join();
+    if (window) {                     
+        glfwDestroyWindow(window);
+        window = nullptr;
+    }
     delete t;
-    window = nullptr;
     t = nullptr;
 }
 

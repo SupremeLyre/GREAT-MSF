@@ -95,7 +95,7 @@ namespace gnut
             ALLPCVNEQ,   ///<   all PCV NEG
             RSSIMAP,     ///<   rssi map
             IMUDATA,     ///< = xx, imu 
-
+            ODODATA,     ///< = xx, odo data
             LAST         ///<   last
         };
 

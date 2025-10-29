@@ -185,5 +185,11 @@ great::t_scheme::t_scheme(t_gsetbase* set)
 	min_sat = dynamic_cast<t_gsetign*>(set)->min_sat();
 	_NHC = dynamic_cast<t_gsetign*>(set)->NHC();
 	_ZUPT = dynamic_cast<t_gsetign*>(set)->ZUPT();
+	
 	_Hgt = dynamic_cast<t_gsetign*>(set)->Hgt();
+
+	//std::string odotype = dynamic_cast<t_gsetign*>(set)->odo();
+	//_odo = (!odotype.empty() && odotype != "OFF");
+	_odo = !dynamic_cast<t_gsetign*>(set)->odo().empty();
+	_LCrtkFloatComb = dynamic_cast<t_gsetign*>(set)->IsUseFloatSolution();
 }

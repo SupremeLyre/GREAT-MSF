@@ -886,6 +886,10 @@ namespace great
                         sat_pcv->pco_proj(pco_S, _crt_obs, _trs_rec_crd, dx);
                     }
                 }
+                else
+                {
+                    return false;
+                }
 
                 if (rec_pcv)
                 {

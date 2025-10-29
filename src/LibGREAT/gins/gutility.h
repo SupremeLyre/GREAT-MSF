@@ -190,7 +190,8 @@ namespace great
 		bool _ZUPT = false;             ///< whether to enable ZUPT
 		bool _NHC = false;              ///< whether to enable NHC
 		bool _Hgt = false;              ///< whether to enable Height constraint
-
+		bool _odo = false;              ///< whether to enable ODO
+		bool _LCrtkFloatComb = false;      ///< whether to use float rtk solution to solve LC
 		t_scheme();
 		/**
 		* @brief Constructor

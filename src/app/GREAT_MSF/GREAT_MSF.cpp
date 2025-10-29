@@ -86,6 +86,7 @@ int main(int argc, char** argv)
     t_gifcb* gifcb = nullptr; if (gset.input_size("ifcb") > 0) { gifcb = new t_gifcb;  gifcb->spdlog(my_logger); }
     // added by zhshen
     t_gimudata* gimu = new t_gimudata(); gimu->spdlog(my_logger);
+    t_gododata* godo = new t_gododata(); godo->spdlog(my_logger);
     vector<t_gintegration*> vgmsf;
 
     // runepoch for the time costed each epoch (i guess)
@@ -137,10 +138,8 @@ int main(int argc, char** argv)
         std::string id("ID" + int2str(i));
 
         // For different file format, we prepare different data container and decoder for them.
-        if (ifmt == IFMT::IMU_INP) { 
-            gdata = gimu; 
-            tgcoder = new t_imufile(&gset, "", 40960); 
-        }
+        if (ifmt == IFMT::IMU_INP) { gdata = gimu; tgcoder = new t_imufile(&gset, "", 40960); }
+        else if (ifmt == IFMT::ODO_INP) { gdata = godo; tgcoder = new t_odofile(&gset, "", 40960); }
         else if (ifmt == IFMT::SP3_INP) { gdata = gorb; tgcoder = new t_sp3(&gset, "", 8172); }
         else if (ifmt == IFMT::RINEXO_INP) { gdata = gobs; tgcoder = new t_rinexo(&gset, "", 4096); }
         else if (ifmt == IFMT::RINEXC_INP) { gdata = gorb; tgcoder = new t_rinexc(&gset, "", 4096); }
@@ -178,7 +177,7 @@ int main(int argc, char** argv)
             // Put the data container into gcoder
             tgcoder->add_data(id, gdata);
 
-            if (ifmt != IFMT::IMU_INP)tgcoder->add_data("OBJ", gobj);
+            if (ifmt != IFMT::IMU_INP && ifmt != IFMT::ODO_INP)tgcoder->add_data("OBJ", gobj);
             // Put the gcoder into the gio. Note, gcoder contain the gdata and gio contain the gcoder
             tgio->coder(tgcoder);
 
@@ -256,7 +255,7 @@ int main(int argc, char** argv)
             vgmsf[idx]->Add_UPD(gupd);
         }
         vgmsf[idx]->Add_IMU(gimu);
-
+        vgmsf[idx]->Add_ODO(godo);
         SPDLOG_LOGGER_INFO(my_logger, std::string("main:  ") + "Multi-thread MSF processing started ");
         SPDLOG_LOGGER_INFO(my_logger, std::string("main:  ") + beg.str_ymdhms("  beg: ") + end.str_ymdhms("  end: "));
 
@@ -287,6 +286,7 @@ int main(int argc, char** argv)
     if (gifcb)  delete gifcb;
     if (data)  delete data;
     if (gimu) delete gimu;
+    if (godo) delete godo;
 
     auto tic_end = system_clock::now();
     auto duration = duration_cast<microseconds>(tic_end - tic_start);
