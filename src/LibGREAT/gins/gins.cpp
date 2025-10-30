@@ -636,7 +636,7 @@ void great::t_gsinskf::set_out()
     _fins->append(dynamic_cast<t_gsetout*>(_setkf)->append());
 
     ostringstream os;
-    sins.prt_header(os);
+    sins.prt_header(os, _shm._imu_scale, _shm._odo);
     _fins->write(os.str().c_str(), os.str().size());
 }
 
