@@ -14,7 +14,7 @@ ins_file=r'E:\GREAT-MSF\sample_data\MSF_20201029\result\SEPT-MSF.ins'
 ref_file=r'E:\GREAT-MSF\sample_data\MSF_20201029\groundtruth\urban-groundtruth.txt'
 
 # Open File
-[t,pos,vel,att,bias,scale]=of.open_ins_file(ins_file,False)
+[t,pos,vel,att,bias,scale]=of.open_ins_file(ins_file,True)
 [t_ref,pos_ref,vel_ref,att_ref,state_ref]=of.open_ref_file(ref_file)
 
 # Diff
