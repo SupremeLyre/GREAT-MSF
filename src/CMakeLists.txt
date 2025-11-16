@@ -110,11 +110,11 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     #For windows
     # ==============================================================================
     if (NOT DEFINED Third_Eigen_ROOT)
-        find_path(Third_Eigen_ROOT       HINTS "${Third_Eigen_ROOT}"        "$ENV{Third_Eigen_ROOT}            ")
+        set(Third_Eigen_ROOT       ${ROOT}/third-party/Eigen)
     endif()
 
     if (NOT DEFINED Third_GLFW_ROOT)
-        find_path(Third_GLFW_ROOT        HINTS "${Third_GLFW_ROOT}"         "$ENV{Third_GLFW_ROOT}         ")
+        set(Third_GLFW_ROOT       ${ROOT}/third-party/GLFW)
     endif()
     # ==============================================================================
 else()
@@ -125,6 +125,8 @@ else()
         set(Third_Eigen_ROOT       ${ROOT}/third-party/Eigen)
     endif()
 
+    find_package(OpenGL REQUIRED)
+    find_package(glfw3 3.3 REQUIRED)
     if (NOT DEFINED Third_GLFW_ROOT)
         set(Third_GLFW_ROOT       ${ROOT}/third-party/GLFW)
     endif()

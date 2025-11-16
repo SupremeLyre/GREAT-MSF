@@ -1,5 +1,12 @@
 /src/build
 /src/build_Windows
 /build_Windows
+/src/build_*
 /build
 /.vs
+sample_data/MSF_*/
+sample_data/RTK_*/
+sample_data/*2025*.zip
+__pycache__/ 
+*.png
+.marscode/

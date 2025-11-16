@@ -11,12 +11,19 @@ source_group("CMake Files" FILES CMakeLists.txt)
 source_group("Header Files" FILES header_files)
 source_group("Soruce Files" FILES source_files)
 
-set(include_path
-    ${Third_Eigen_ROOT}
-    ${Third_GLFW_ROOT}/include
-    ${LibGnutSrc}
-    ${LibGREATSrc})
-    
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+    set(include_path
+        ${Third_Eigen_ROOT}
+        ${Third_GLFW_ROOT}/include
+        ${LibGnutSrc}
+        ${LibGREATSrc})
+else()
+    set(include_path
+        ${Third_Eigen_ROOT}
+        # ${Third_GLFW_ROOT}/include
+        ${LibGnutSrc}
+        ${LibGREATSrc})
+endif()
 include_directories(${include_path})
 
 add_definitions(-D GLOG_NO_ABBREVIATED_SEVERITIES)

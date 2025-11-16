@@ -1,0 +1,19 @@
+{
+    "cmake.debugConfig": {
+        "args": [
+            "-x",
+            "xml/great-pvt-ins-adis-tcrtk-mc-odo.xml",
+            // "/home/supremelyre/data/projects/GREAT-MSF/sample_data/MSF_20201029/xml/GREAT_MSF_TCPPP_1029.xml",
+            // "/home/supremelyre/data/projects/GREAT-MSF/sample_data/MSF_20211013/xml/great-211013-tcppp.xml",
+        ],
+        "cwd": "${workspaceFolder}/../sample_data/MSF_20211012/",
+        // "cwd": "${workspaceFolder}/../sample_data/MSF_20201029/",
+        // "cwd": "${workspaceFolder}/../sample_data/MSF_20211013/",
+    },
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
+    ]
+}
